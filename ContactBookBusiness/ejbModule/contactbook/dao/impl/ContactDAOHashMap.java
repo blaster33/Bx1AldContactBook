@@ -1,26 +1,25 @@
-package contactbook.database;
+package contactbook.dao.impl;
 
 import java.util.*;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 
-import contacbook.data.Contact;
+import contacbook.model.Contact;
+import contactbook.dao.ContactDAO;
+import contactbook.dao.ContactSearchCriteria;
 
 @Stateless
-@Local(DataAccess.class)
-public class DataAccessHashMap implements DataAccess {
-	private static DataAccessHashMap instance = new DataAccessHashMap();
+@Local(ContactDAO.class)
+public class ContactDAOHashMap implements ContactDAO {
+	private static ContactDAOHashMap instance = new ContactDAOHashMap();
 	private Map<Integer, Contact> contacts;
-	private Map<String, String> accounts;
-	private boolean isLoggedIn;
 	
-	private DataAccessHashMap () {
+	private ContactDAOHashMap () {
 		contacts = new Hashtable<Integer, Contact>();
-		accounts = new Hashtable<String, String>();
 	}
 	
-	public static DataAccessHashMap getInstance() {
+	public static ContactDAOHashMap getInstance() {
 		return instance;
 	}
 	
@@ -47,7 +46,7 @@ public class DataAccessHashMap implements DataAccess {
 		List<Contact> l = new ArrayList<Contact>();
 		
 		switch(field) {
-		case DataAccess.ID:
+		case ContactDAO.ID:
 			l.add(contacts.get(value));
 			break;
 		default:
@@ -61,18 +60,10 @@ public class DataAccessHashMap implements DataAccess {
 		return contacts.values().iterator();
 	}
 
-	public void createAccount(String username, String password) {
-		if(accounts.containsKey(username))
-			throw new IllegalArgumentException("This account already exists.");
-		accounts.put(username, password);
-	}
-
-	public void login(String username, String password) {
-		if(accounts.containsKey(username) && accounts.get(username).equals(password))
-			isLoggedIn = true;
-	}
-
-	public void logout() {
-		isLoggedIn = false;
+	public Iterator<Contact> findBy(ContactSearchCriteria criteria) {
+		Collection<Contact> list = contacts.values();
+		
+		
+		return null;
 	}
 }

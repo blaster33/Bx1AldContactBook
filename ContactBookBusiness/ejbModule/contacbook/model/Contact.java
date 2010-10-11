@@ -1,10 +1,19 @@
-package contacbook.data;
+package contacbook.model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
-public class Contact {
+import javax.persistence.*;
+
+@Entity
+@Table(name = "contact")
+public class Contact implements Serializable {
+	private static final long serialVersionUID = 3167237684976390261L;
+
 	static private int nContact = 0;
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	private String lastName;
 	private String firstName;
