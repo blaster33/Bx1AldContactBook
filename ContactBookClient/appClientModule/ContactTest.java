@@ -6,6 +6,7 @@ import junit.framework.TestCase;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
+
 import contacbook.model.Contact;
 import contactbook.service.ContactServiceRemote;
 
