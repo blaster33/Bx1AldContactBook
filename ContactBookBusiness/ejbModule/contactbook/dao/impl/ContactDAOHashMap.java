@@ -5,9 +5,9 @@ import java.util.*;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 
-import contacbook.model.Contact;
 import contactbook.dao.ContactDAO;
 import contactbook.dao.ContactSearchCriteria;
+import contactbook.model.Contact;
 
 @Stateless
 @Local(ContactDAO.class)
@@ -63,7 +63,10 @@ public class ContactDAOHashMap implements ContactDAO {
 	public Iterator<Contact> findBy(ContactSearchCriteria criteria) {
 		Collection<Contact> list = contacts.values();
 		
+		for(Contact c: list)
+			if(!criteria.match(c))
+				list.remove(c);
 		
-		return null;
+		return list.iterator();
 	}
 }

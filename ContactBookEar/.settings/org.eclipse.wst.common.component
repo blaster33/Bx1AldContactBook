@@ -3,7 +3,7 @@
     <wb-module deploy-name="ContactBookEar">
         <wb-resource deploy-path="/" source-path="/EarContent"/>
         <dependent-module archiveName="ContactBookBusiness.jar" deploy-path="/" handle="module:/resource/ContactBookBusiness/ContactBookBusiness">
-            <dependent-object>EjbModule_1286182627577</dependent-object>
+            <dependent-object>EjbModule_1289213359623</dependent-object>
             <dependency-type>uses</dependency-type>
         </dependent-module>
     </wb-module>

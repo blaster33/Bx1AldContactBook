@@ -2,7 +2,7 @@ package contactbook.dao;
 
 import java.util.Calendar;
 
-import contacbook.model.Contact;
+import contactbook.model.Contact;
 
 public class ContactSearchCriteria {
 	protected Contact c;
@@ -11,12 +11,49 @@ public class ContactSearchCriteria {
 		c = new Contact();
 	}
 	
-	public boolean match(Contact c) {
-		boolean match = true;
+	public void clear() {
+		c = new Contact();
+	}
+	
+	public boolean match(Contact contact) {
 		
-		if(c.id)
+		if(c.getAddress1() != null && !containsIgnoreCase(contact.getAddress1(), c.getAddress1()))
+			return false;
 		
-		return false;
+		if(c.getAddress2() != null && !containsIgnoreCase(contact.getAddress2(), c.getAddress2()))
+			return false;
+		
+		if(c.getCellPhone() != null && !containsIgnoreCase(contact.getCellPhone(), c.getCellPhone()))
+			return false;
+		
+		if(c.getCity() != null && !containsIgnoreCase(contact.getCity(), c.getCity()))
+			return false;
+		
+		if(c.getCountry() != null && !containsIgnoreCase(contact.getCountry(), c.getCountry()))
+			return false;
+		
+//		if(c.getDateOfBirth() != null && !contact.getDateOfBirth().equals(c.getDateOfBirth()))
+//			return false;
+//		
+		if(c.getEmail() != null && !containsIgnoreCase(contact.getEmail(), c.getEmail()))
+			return false;
+		
+		if(c.getFirstName() != null && !containsIgnoreCase(contact.getFirstName(), c.getFirstName()))
+			return false;
+		
+		if(c.getHomePhone() != null && !containsIgnoreCase(contact.getHomePhone(), c.getHomePhone()))
+			return false;
+		
+		if(c.getLastName() != null && !containsIgnoreCase(contact.getLastName(), c.getLastName()))
+			return false;
+		
+		if(c.getState() != null && !containsIgnoreCase(contact.getState(), c.getState()))
+			return false;
+		
+		if(c.getZipCode() != null && !containsIgnoreCase(contact.getZipCode(), c.getZipCode()))
+			return false;
+		
+		return true;
 	}
 
 	public String getAddress1() {
@@ -39,9 +76,9 @@ public class ContactSearchCriteria {
 		return c.getCountry();
 	}
 
-	public Calendar getDateOfBirth() {
-		return c.getDateOfBirth();
-	}
+//	public Calendar getDateOfBirth() {
+//		return c.getDateOfBirth();
+//	}
 
 	public String getEmail() {
 		return c.getEmail();
@@ -91,9 +128,9 @@ public class ContactSearchCriteria {
 		c.setCountry(country);
 	}
 
-	public void setDateOfBirth(Calendar dateOfBirth) {
-		c.setDateOfBirth(dateOfBirth);
-	}
+//	public void setDateOfBirth(Calendar dateOfBirth) {
+//		c.setDateOfBirth(dateOfBirth);
+//	}
 
 	public void setEmail(String email) {
 		c.setEmail(email);
@@ -121,5 +158,9 @@ public class ContactSearchCriteria {
 
 	public String toString() {
 		return c.toString();
+	}
+	
+	private boolean containsIgnoreCase(String str1, String str2) {
+		return str1.toLowerCase().indexOf(str2.toLowerCase()) >= 0;
 	}
 }

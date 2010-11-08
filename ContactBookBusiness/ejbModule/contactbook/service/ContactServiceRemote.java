@@ -2,8 +2,8 @@ package contactbook.service;
 
 import java.util.Iterator;
 
-import contacbook.model.Contact;
 import contactbook.dao.ContactSearchCriteria;
+import contactbook.model.Contact;
 
 public interface ContactServiceRemote {
 	public static String JNDI = "ContactBookEar/ContactServiceImpl/remote";

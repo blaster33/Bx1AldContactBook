@@ -2,7 +2,7 @@ package contactbook.dao;
 
 import java.util.Iterator;
 
-import contacbook.model.Contact;
+import contactbook.model.Contact;
 
 public interface ContactDAO {
 	public static final int ID = 0x0;
