@@ -6,6 +6,4 @@ import contactbook.model.Contact;
 
 public class EntityManager {
 	private Set<Contact> contacts;
-	
-	
 }
