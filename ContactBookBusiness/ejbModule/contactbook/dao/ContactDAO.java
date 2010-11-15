@@ -1,6 +1,6 @@
 package contactbook.dao;
 
-import java.util.Iterator;
+import java.util.List;
 
 import contactbook.model.Contact;
 
@@ -13,7 +13,7 @@ public interface ContactDAO {
 
 	public void removeContact(Contact c);
 	
-	public Iterator<Contact> getContacts();
+	public List<Contact> getContacts();
 
-	public Iterator<Contact> findBy(ContactSearchCriteria criteria);
+	public List<Contact> findBy(ContactSearchCriteria criteria);
 }

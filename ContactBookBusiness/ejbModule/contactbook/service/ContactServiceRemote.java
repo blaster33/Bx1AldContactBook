@@ -1,6 +1,6 @@
 package contactbook.service;
 
-import java.util.Iterator;
+import java.util.List;
 
 import contactbook.dao.ContactSearchCriteria;
 import contactbook.model.Contact;
@@ -12,7 +12,7 @@ public interface ContactServiceRemote {
 	
 	public void removeContact(Contact c);
 	
-	public Iterator<Contact> getContacts();
+	public List<Contact> getContacts();
 
-	public Iterator<Contact> findBy(ContactSearchCriteria criteria);
+	public List<Contact> findBy(ContactSearchCriteria criteria);
 }

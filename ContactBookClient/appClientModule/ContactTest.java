@@ -1,5 +1,5 @@
-import java.util.Calendar;
-import java.util.Iterator;
+//import java.util.Calendar;
+//import java.util.Iterator;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -14,7 +14,7 @@ import contactbook.service.ContactServiceRemote;
 
 public class ContactTest extends TestCase {
 	private ContactServiceRemote contactService;
-	private ContactSearchCriteria searchCriteria;
+	//private ContactSearchCriteria searchCriteria;
 	
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -28,7 +28,7 @@ public class ContactTest extends TestCase {
 			System.err.println(e.getExplanation());
 			e.printStackTrace();
 		}
-		searchCriteria = new ContactSearchCriteria();
+		//searchCriteria = new ContactSearchCriteria();
 	}
 	
 	protected void tearDown() throws Exception {
@@ -45,9 +45,9 @@ public class ContactTest extends TestCase {
 		c.setCity("Bordeaux");
 		c.setState("Gironde");
 		c.setCountry("FRANCE");
-		Calendar cal = Calendar.getInstance();
-		cal.clear();
-		cal.set(1988, Calendar.SEPTEMBER, 22);
+		//Calendar cal = Calendar.getInstance();
+		//cal.clear();
+		//cal.set(1988, Calendar.SEPTEMBER, 22);
 //		c.setDateOfBirth(cal);
 		c.setCellPhone("0627498448");
 		c.setHomePhone("0556391930");
@@ -56,14 +56,15 @@ public class ContactTest extends TestCase {
 		System.out.println(c);
 		
 		try {
-			c = contactService.addContact(c);
-			Assert.assertTrue("Id valuated", c.getId() > 0);
+			contactService.addContact(c);
 		}
 		catch(Exception e) {
-			System.err.println(e.getMessage());
 			e.printStackTrace();
 		}
 		
+		Contact c2 = contactService.getContacts().get(0);
+		Assert.assertTrue("Id valuated", c2.getId() > 0);
+		//Assert.assertTrue(c.equals(c2));
 		
 //		searchCriteria.setFirstName("flo");
 //		Iterator<Contact> it = contactService.findBy(searchCriteria);

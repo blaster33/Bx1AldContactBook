@@ -1,4 +1,4 @@
-package contactbook.dao.impl;
+/*package contactbook.dao.impl;
 
 import java.util.*;
 
@@ -9,8 +9,8 @@ import contactbook.dao.ContactDAO;
 import contactbook.dao.ContactSearchCriteria;
 import contactbook.model.Contact;
 
-@Stateless
-@Local(ContactDAO.class)
+//@Stateless
+//@Local(ContactDAO.class)
 public class ContactDAOHashMap implements ContactDAO {
 	private static ContactDAOHashMap instance = new ContactDAOHashMap();
 	private Map<Integer, Contact> contacts;
@@ -70,3 +70,4 @@ public class ContactDAOHashMap implements ContactDAO {
 		return list.iterator();
 	}
 }
+*/

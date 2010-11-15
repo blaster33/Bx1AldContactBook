@@ -1,6 +1,6 @@
 package contactbook.service.impl;
 
-import java.util.*;
+import java.util.List;
 
 import javax.annotation.EJB;
 import javax.ejb.Remote;
@@ -10,7 +10,7 @@ import javax.jws.WebService;
 
 import contactbook.dao.ContactDAO;
 import contactbook.dao.ContactSearchCriteria;
-import contactbook.dao.impl.ContactDAOHashMap;
+import contactbook.dao.impl.ContactDAOMysql;
 import contactbook.model.Contact;
 import contactbook.service.ContactServiceRemote;
 
@@ -22,7 +22,7 @@ public class ContactServiceImpl implements ContactServiceRemote {
 	protected ContactDAO data;
 	
 	public ContactServiceImpl() {
-		data = ContactDAOHashMap.getInstance();
+		data = ContactDAOMysql.getInstance();
 	}
 	
 	@WebMethod
@@ -32,7 +32,7 @@ public class ContactServiceImpl implements ContactServiceRemote {
 	}
 
 	@WebMethod
-	public Iterator<Contact> getContacts() {
+	public List<Contact> getContacts() {
 		return data.getContacts();
 	}
 
@@ -42,7 +42,7 @@ public class ContactServiceImpl implements ContactServiceRemote {
 	}
 
 	@WebMethod
-	public Iterator<Contact> findBy(ContactSearchCriteria criteria) {
+	public List<Contact> findBy(ContactSearchCriteria criteria) {
 		return data.findBy(criteria);
 	}
 }
