@@ -1,17 +1,17 @@
 package contactbook.model;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.persistence.*;
 
+import org.apache.log4j.lf5.util.DateFormatManager;
+
 @Entity
 @Table(name = "contact")
-
 public class Contact implements Serializable {
 	private static final long serialVersionUID = 3167237684976390261L;
-
-	static private int nContact = 0;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -27,10 +27,11 @@ public class Contact implements Serializable {
 	private String city;
 	private String state;
 	private String country;
-//	private String dateOfBirth;
+	private long dateOfBirth;
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Group group = null;
 	
 	public Contact() {
-		id = nContact++;
 	}
 	
 	public int getId() {
@@ -129,13 +130,21 @@ public class Contact implements Serializable {
 		this.country = country;
 	}
 	
-//	public void setDateOfBirth(Calendar dateOfBirth) {
-//		this.dateOfBirth = dateOfBirth;
-//	}
-//
-//	public Calendar getDateOfBirth() {
-//		return dateOfBirth;
-//	}
+	public void setDateOfBirth(long dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public long getDateOfBirth() {
+		return dateOfBirth;
+	}
+	
+	public void setGroup(Group group) {
+		this.group = group;
+	}
+	
+	public Group getGroup() {
+		return group;
+	}
 
 	public String toString() {
 		String newline = System.getProperty("line.separator");
@@ -148,7 +157,7 @@ public class Contact implements Serializable {
 		sb.append("Home: " + homePhone + newline);
 		sb.append("Cellphone: " + cellPhone + newline);
 		sb.append("Email: " + email + newline);
-		//sb.append("Born: " + String.format("%d/%02d/%d", dateOfBirth.get(Calendar.DAY_OF_MONTH), dateOfBirth.get(Calendar.MONTH)+1, dateOfBirth.get(Calendar.YEAR)) + newline);
+		sb.append("Date of birth: " + new DateFormatManager(Locale.FRANCE).format(new Date(dateOfBirth * 1000)));
 
 		return sb.toString();
 	}

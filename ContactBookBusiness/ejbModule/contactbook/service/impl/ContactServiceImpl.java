@@ -10,8 +10,11 @@ import javax.jws.WebService;
 
 import contactbook.dao.ContactDAO;
 import contactbook.dao.ContactSearchCriteria;
+import contactbook.dao.GroupDAO;
 import contactbook.dao.impl.ContactDAOMysql;
+import contactbook.dao.impl.GroupDAOImpl;
 import contactbook.model.Contact;
+import contactbook.model.Group;
 import contactbook.service.ContactServiceRemote;
 
 @WebService(serviceName="ContactBookService")
@@ -19,30 +22,60 @@ import contactbook.service.ContactServiceRemote;
 @Remote(ContactServiceRemote.class)
 public class ContactServiceImpl implements ContactServiceRemote {
 	@EJB
-	protected ContactDAO data;
+	protected ContactDAO contactDAO;
+	@EJB
+	protected GroupDAO groupDAO;
 	
 	public ContactServiceImpl() {
-		data = ContactDAOMysql.getInstance();
+		contactDAO = ContactDAOMysql.getInstance();
+		groupDAO = GroupDAOImpl.getInstance();
 	}
 	
 	@WebMethod
 	public Contact addContact(Contact c) {
-		data.addContact(c);
+		contactDAO.addContact(c);
 		return c;
 	}
 
 	@WebMethod
-	public List<Contact> getContacts() {
-		return data.getContacts();
+	public List<Contact> getContacts1() {
+		return contactDAO.getContacts();
 	}
 
 	@WebMethod
 	public void removeContact(Contact c) {
-		data.removeContact(c);
+		contactDAO.removeContact(c);
+	}
+	
+	@WebMethod
+	public Contact updateContact(Contact c) {
+		contactDAO.updateContact(c);
+		return c;
 	}
 
 	@WebMethod
 	public List<Contact> findBy(ContactSearchCriteria criteria) {
-		return data.findBy(criteria);
+		return contactDAO.findBy(criteria);
+	}
+
+	@WebMethod
+	public Group addGroup(Group group) {
+		groupDAO.addGroup(group);
+		return group;
+	}
+
+	@WebMethod
+	public void removeGroup(Group group, boolean removeContacts) {
+		groupDAO.removeGroup(group, removeContacts);
+	}
+
+	@WebMethod
+	public List<Group> getGroups() {
+		return groupDAO.getGroups();
+	}
+	
+	@WebMethod
+	public List<Contact> getContacts2(Group g) {
+		return groupDAO.getContacts(g);
 	}
 }

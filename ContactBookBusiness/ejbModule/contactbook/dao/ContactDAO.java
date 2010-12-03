@@ -13,6 +13,8 @@ public interface ContactDAO {
 
 	public void removeContact(Contact c);
 	
+	public void updateContact(Contact c);
+	
 	public List<Contact> getContacts();
 
 	public List<Contact> findBy(ContactSearchCriteria criteria);

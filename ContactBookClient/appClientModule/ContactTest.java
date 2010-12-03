@@ -7,9 +7,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-
-import contactbook.dao.ContactSearchCriteria;
 import contactbook.model.Contact;
+import contactbook.model.Group;
 import contactbook.service.ContactServiceRemote;
 
 public class ContactTest extends TestCase {
@@ -53,17 +52,25 @@ public class ContactTest extends TestCase {
 		c.setHomePhone("0556391930");
 		c.setEmail("blaster33300@hotmail.com");
 		
-		System.out.println(c);
+		Group group = new Group("Famille");
+		contactService.addGroup(group);
+		c.setGroup(group);
 		
 		try {
 			contactService.addContact(c);
+			System.out.println(c);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 		
-		Contact c2 = contactService.getContacts().get(0);
+		Contact c2 = contactService.getContacts1().get(0);
 		Assert.assertTrue("Id valuated", c2.getId() > 0);
+		
+		//contactService.updateContact(c);
+		
+		Assert.assertEquals(c, contactService.getContacts2(contactService.getGroups().get(0)).get(0));
+		
 		//Assert.assertTrue(c.equals(c2));
 		
 //		searchCriteria.setFirstName("flo");

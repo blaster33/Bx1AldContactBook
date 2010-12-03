@@ -1,5 +1,6 @@
 package contactbook.webapp.client;
 
+import contactbook.webapp.server.GreetingServiceImpl;
 import contactbook.webapp.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -8,13 +9,17 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TabBar;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -27,14 +32,14 @@ public class ContactBookWebapp implements EntryPoint {
 	 * returns an error.
 	 */
 	private static final String SERVER_ERROR = "An error occurred while "
-			+ "attempting to contact the server. Please check your network "
-			+ "connection and try again.";
+		+ "attempting to contact the server. Please check your network "
+		+ "connection and try again.";
 
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting service.
 	 */
 	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
+	.create(GreetingService.class);
 
 	/**
 	 * This is the entry point method.
@@ -120,28 +125,59 @@ public class ContactBookWebapp implements EntryPoint {
 				sendButton.setEnabled(false);
 				textToServerLabel.setText(textToServer);
 				serverResponseLabel.setText("");
-				greetingService.greetServer(textToServer,
+				/*greetingService.greetServer(textToServer,
 						new AsyncCallback<String>() {
-							public void onFailure(Throwable caught) {
-								// Show the RPC error message to the user
-								dialogBox
-										.setText("Remote Procedure Call - Failure");
-								serverResponseLabel
-										.addStyleName("serverResponseLabelError");
-								serverResponseLabel.setHTML(SERVER_ERROR);
-								dialogBox.center();
-								closeButton.setFocus(true);
-							}
+					public void onFailure(Throwable caught) {
+						// Show the RPC error message to the user
+						dialogBox
+						.setText("Remote Procedure Call - Failure");
+						serverResponseLabel
+						.addStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML(SERVER_ERROR);
+						dialogBox.center();
+						closeButton.setFocus(true);
+					}
 
-							public void onSuccess(String result) {
-								dialogBox.setText("Remote Procedure Call");
-								serverResponseLabel
-										.removeStyleName("serverResponseLabelError");
-								serverResponseLabel.setHTML(result);
-								dialogBox.center();
-								closeButton.setFocus(true);
-							}
-						});
+					public void onSuccess(String result) {
+						dialogBox.setText("Remote Procedure Call");
+						serverResponseLabel
+						.removeStyleName("serverResponseLabelError");
+						serverResponseLabel.setHTML(result);
+						dialogBox.center();
+						closeButton.setFocus(true);
+					}
+				});*/
+
+				String url = GWT.getHostPageBaseURL() + "ContactBookWebapp.html";
+				System.out.println(url);
+
+				RequestBuilder requestBuilder = new RequestBuilder(RequestBuilder.GET, url);
+				String queryString = nameField.getName() + "=" + nameField.getValue();
+				try {
+					requestBuilder.sendRequest(queryString, new RequestCallback() {
+						public void onResponseReceived(Request request, Response response) {
+							dialogBox.setText("Remote Procedure Call");
+							serverResponseLabel
+							.removeStyleName("serverResponseLabelError");
+							serverResponseLabel.setHTML(response.getText());
+							dialogBox.center();
+							closeButton.setFocus(true);
+						}
+
+						public void onError(Request request, Throwable exception) {
+							// Show the RPC error message to the user
+							dialogBox
+							.setText("Remote Procedure Call - Failure");
+							serverResponseLabel
+							.addStyleName("serverResponseLabelError");
+							serverResponseLabel.setHTML(SERVER_ERROR);
+							dialogBox.center();
+							closeButton.setFocus(true);
+						}
+					});
+				} catch (RequestException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
