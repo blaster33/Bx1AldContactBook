@@ -1,2 +1,9 @@
 # Ignore compiled classes
 *.class
+
+# Ignore IDE file that may be overwritten by different platforms
+.classpath
+.DS_Store
+.project
+.settings
+
