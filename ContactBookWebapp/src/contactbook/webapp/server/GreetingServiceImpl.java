@@ -1,5 +1,12 @@
 package contactbook.webapp.server;
 
+import java.io.IOException;
+import java.util.Enumeration;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import contactbook.webapp.client.GreetingService;
 import contactbook.webapp.shared.FieldVerifier;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -10,6 +17,22 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 @SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements
 		GreetingService {
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		System.out.println("Query string: " + req.getQueryString());			
+		
+		Enumeration params = req.getParameterNames();
+		while(params.hasMoreElements()) {
+			String param = (String) params.nextElement();
+			String value = req.getParameter(param);
+			System.out.println(param + " -> " + value);
+		}
+		
+		greetServer("username");
+		super.doGet(req, resp);
+	}
 
 	public String greetServer(String input) throws IllegalArgumentException {
 		this.getServletConfig();

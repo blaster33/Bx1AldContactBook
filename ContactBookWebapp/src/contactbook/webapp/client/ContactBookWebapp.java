@@ -14,6 +14,7 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -148,11 +149,13 @@ public class ContactBookWebapp implements EntryPoint {
 					}
 				});*/
 
-				String url = GWT.getHostPageBaseURL() + "ContactBookWebapp.html";
+				String url = GWT.getHostPageBaseURL() + "contactbookwebapp/greet";
 				System.out.println(url);
 
 				RequestBuilder requestBuilder = new RequestBuilder(RequestBuilder.GET, url);
-				String queryString = nameField.getName() + "=" + nameField.getValue();
+				String queryString = URL.encode("user") + "=" + URL.encode(nameField.getValue());
+				System.out.println("client query string:" + queryString);
+				
 				try {
 					requestBuilder.sendRequest(queryString, new RequestCallback() {
 						public void onResponseReceived(Request request, Response response) {
