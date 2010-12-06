@@ -10,6 +10,8 @@ public interface GroupDAO {
 	
 	public void removeGroup(Group group, Boolean removeContacts);
 	
+	public void updateGroup(Group group);
+	
 	public List<Group> getGroups();
 	
 	public List<Contact> getContacts(Group group);

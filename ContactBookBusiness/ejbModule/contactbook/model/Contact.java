@@ -8,6 +8,8 @@ import javax.persistence.*;
 
 import org.apache.log4j.lf5.util.DateFormatManager;
 
+import contactbook.model.Group;
+
 @Entity
 @Table(name = "contact")
 public class Contact implements Serializable {
@@ -28,10 +30,14 @@ public class Contact implements Serializable {
 	private String state;
 	private String country;
 	private long dateOfBirth;
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
 	private Group group = null;
 	
-	public Contact() {
+	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+	private User user = null;
+	
+	public Contact(User user) {
+		this.user = user;
 	}
 	
 	public int getId() {

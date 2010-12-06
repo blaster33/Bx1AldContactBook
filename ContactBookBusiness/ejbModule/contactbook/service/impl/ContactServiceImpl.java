@@ -9,12 +9,14 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 
 import contactbook.dao.ContactDAO;
-import contactbook.dao.ContactSearchCriteria;
 import contactbook.dao.GroupDAO;
-import contactbook.dao.impl.ContactDAOMysql;
+import contactbook.dao.UserDAO;
+import contactbook.dao.impl.ContactDAOImpl;
 import contactbook.dao.impl.GroupDAOImpl;
+import contactbook.dao.impl.UserDAOImpl;
 import contactbook.model.Contact;
 import contactbook.model.Group;
+import contactbook.model.User;
 import contactbook.service.ContactServiceRemote;
 
 @WebService(serviceName="ContactBookService")
@@ -25,21 +27,19 @@ public class ContactServiceImpl implements ContactServiceRemote {
 	protected ContactDAO contactDAO;
 	@EJB
 	protected GroupDAO groupDAO;
+	@EJB
+	protected UserDAO userDAO;
 	
 	public ContactServiceImpl() {
-		contactDAO = ContactDAOMysql.getInstance();
+		contactDAO = ContactDAOImpl.getInstance();
 		groupDAO = GroupDAOImpl.getInstance();
+		userDAO = UserDAOImpl.getInstance();
 	}
 	
 	@WebMethod
 	public Contact addContact(Contact c) {
 		contactDAO.addContact(c);
 		return c;
-	}
-
-	@WebMethod
-	public List<Contact> getContacts1() {
-		return contactDAO.getContacts();
 	}
 
 	@WebMethod
@@ -54,11 +54,6 @@ public class ContactServiceImpl implements ContactServiceRemote {
 	}
 
 	@WebMethod
-	public List<Contact> findBy(ContactSearchCriteria criteria) {
-		return contactDAO.findBy(criteria);
-	}
-
-	@WebMethod
 	public Group addGroup(Group group) {
 		groupDAO.addGroup(group);
 		return group;
@@ -68,14 +63,29 @@ public class ContactServiceImpl implements ContactServiceRemote {
 	public void removeGroup(Group group, boolean removeContacts) {
 		groupDAO.removeGroup(group, removeContacts);
 	}
-
-	@WebMethod
-	public List<Group> getGroups() {
-		return groupDAO.getGroups();
-	}
 	
 	@WebMethod
-	public List<Contact> getContacts2(Group g) {
+	public List<Contact> getContactsByGroup(Group g) {
 		return groupDAO.getContacts(g);
+	}
+
+	@WebMethod
+	public void addUser(User user) {
+		userDAO.addUser(user);
+	}
+
+	@WebMethod
+	public List<Contact> getContactsByUser(User user) {
+		return userDAO.getContacts(user);
+	}
+
+	@WebMethod
+	public List<Group> getGroupsByUser(User user) {
+		return userDAO.getGroup(user);
+	}
+
+	@WebMethod
+	public void removeUser(User user) {
+		userDAO.removeUser(user);
 	}
 }

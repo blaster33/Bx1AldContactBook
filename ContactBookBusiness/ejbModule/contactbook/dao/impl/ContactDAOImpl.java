@@ -8,18 +8,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import contactbook.dao.ContactDAO;
-import contactbook.dao.ContactSearchCriteria;
 import contactbook.model.Contact;
 
 @Stateless
 @Local(ContactDAO.class)
-public class ContactDAOMysql implements ContactDAO {
-	private static ContactDAOMysql instance = new ContactDAOMysql();
-	
+public class ContactDAOImpl implements ContactDAO {
+	private static ContactDAOImpl instance = new ContactDAOImpl();
+
 	@PersistenceContext(unitName="ContactBookPU")
 	protected EntityManager em;
-	
-	public static ContactDAOMysql getInstance() {
+
+	public static ContactDAOImpl getInstance() {
 		return instance;
 	}
 
@@ -32,15 +31,11 @@ public class ContactDAOMysql implements ContactDAO {
 	public void removeContact(Contact c) {
 		em.remove(c);
 	}
-	
+
 	@Override
 	public void updateContact(Contact c) {
-		try {
-			em.merge(c);
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
+		em.merge(c);
+		em.flush();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -48,11 +43,4 @@ public class ContactDAOMysql implements ContactDAO {
 	public List<Contact> getContacts() {
 		return em.createQuery("SELECT c from Contact c").getResultList();
 	}
-
-	@Override
-	public List<Contact> findBy(ContactSearchCriteria criteria) {
-		throw new RuntimeException("Not implemented");
-		//return null;
-	}
-
 }

@@ -16,7 +16,7 @@ import contactbook.model.Group;
 @Local(GroupDAO.class)
 public class GroupDAOImpl implements GroupDAO {
 	private static GroupDAOImpl instance = new GroupDAOImpl();
-	
+
 	@PersistenceContext(unitName="ContactBookPU")
 	protected EntityManager em;
 
@@ -31,9 +31,13 @@ public class GroupDAOImpl implements GroupDAO {
 
 	@Override
 	public void removeGroup(Group group, Boolean removeContacts) {
-		if(removeContacts) {
-			for(Contact c: getContacts(group))
-				ContactDAOMysql.getInstance().removeContact(c);
+		for(Contact c: getContacts(group)) {
+			if(removeContacts)
+				ContactDAOImpl.getInstance().removeContact(c);
+			else {
+				c.setGroup(null);
+				ContactDAOImpl.getInstance().updateContact(c);
+			}
 		}
 		em.remove(group);
 	}
@@ -50,5 +54,11 @@ public class GroupDAOImpl implements GroupDAO {
 	@Override
 	public List<Group> getGroups() {
 		return em.createQuery("SELECT g from Group g").getResultList();
+	}
+
+	@Override
+	public void updateGroup(Group group) {
+		em.merge(group);
+		em.flush();
 	}
 }

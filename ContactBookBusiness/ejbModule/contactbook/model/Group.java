@@ -2,10 +2,13 @@ package contactbook.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
@@ -19,12 +22,20 @@ public class Group implements Serializable {
 	private int id;
 	private String groupName;
 	
-	public Group(String name) {
+	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+	private User user = null;
+	
+	public Group(User user, String name) {
+		setUser(user);
 		setName(name);
 	}
 	
-	public Group() {
-		this("");
+	private void setUser(User user) {
+		this.user = user;
+	}
+
+	public User getUser() {
+		return user;
 	}
 	
 	public void setId(int id) {

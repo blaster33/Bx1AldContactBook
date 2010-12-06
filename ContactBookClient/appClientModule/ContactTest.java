@@ -1,14 +1,12 @@
-//import java.util.Calendar;
-//import java.util.Iterator;
-
-import junit.framework.Assert;
-import junit.framework.TestCase;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import junit.framework.Assert;
+import junit.framework.TestCase;
 import contactbook.model.Contact;
 import contactbook.model.Group;
+import contactbook.model.User;
 import contactbook.service.ContactServiceRemote;
 
 public class ContactTest extends TestCase {
@@ -35,7 +33,10 @@ public class ContactTest extends TestCase {
 	}
 	
 	public void testAddContact() throws Exception {
-		Contact c = new Contact();
+		User user = new User("antho", "toto", true);
+		contactService.addUser(user);
+		
+		Contact c = new Contact(user);
 		c.setFirstName("Florian");
 		c.setLastName("Blois");
 		c.setAddress1("3 rue Henri Expert");
@@ -52,56 +53,26 @@ public class ContactTest extends TestCase {
 		c.setHomePhone("0556391930");
 		c.setEmail("blaster33300@hotmail.com");
 		
-		Group group = new Group("Famille");
-		contactService.addGroup(group);
+		Group group = new Group(user, "Famille");
 		c.setGroup(group);
+		contactService.addGroup(group);
+		contactService.addContact(c);
 		
-		try {
-			contactService.addContact(c);
-			System.out.println(c);
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		Contact c2 = contactService.getContacts1().get(0);
+		Contact c2 = contactService.getContactsByUser(user).get(0);
 		Assert.assertTrue("Id valuated", c2.getId() > 0);
 		
-		//contactService.updateContact(c);
+		c2 = contactService.getContactsByGroup(contactService.getGroupsByUser(user).get(0)).get(0);
+		Assert.assertTrue("Id valuated", c2.getId() > 0);
 		
-		Assert.assertEquals(c, contactService.getContacts2(contactService.getGroups().get(0)).get(0));
+		contactService.removeGroup(group, false);
 		
-		//Assert.assertTrue(c.equals(c2));
+		Group newGroup = new Group(user, "New group");
+		c.setGroup(newGroup);
+		contactService.updateContact(c);
 		
-//		searchCriteria.setFirstName("flo");
-//		Iterator<Contact> it = contactService.findBy(searchCriteria);
-//		Contact c2 = it.next();
-//		Assert.assertEquals(c2, c);
-//		
-//		Assert.assertEquals(c2.getFirstName(), "Florian");
-//		Assert.assertEquals(c2.getLastName(), "Blois");
-//		Assert.assertEquals(c2.getAddress1(), "3 rue Henri Expert");
-//		Assert.assertEquals(c2.getAddress2(), "Appt. 24");
-//		Assert.assertEquals(c2.getZipCode(), "33300");
-//		Assert.assertEquals(c2.getCity(), "Bordeaux");
-//		Assert.assertEquals(c2.getDateOfBirth().get(Calendar.DAY_OF_MONTH), 22);
-//		Assert.assertEquals(c2.getDateOfBirth().get(Calendar.MONTH), Calendar.SEPTEMBER);
-//		Assert.assertEquals(c2.getDateOfBirth().get(Calendar.YEAR), 1988);
-//		Assert.assertEquals(c2.getCellPhone(), "0627498448");
-//		Assert.assertEquals(c2.getHomePhone(), "0556391930");
-//		Assert.assertEquals(c2.getEmail(), "blaster33300@hotmail.com");
-//		
-//		searchCriteria.clear();
-//		searchCriteria.setLastName("xxx");
-//		it = contactService.findBy(searchCriteria);
-//		Assert.assertTrue(!it.hasNext());
-//		
-//		c = new Contact();
-//		c.setFirstName("Anthony");
-//		c.setLastName("Simonet");
-//		contactService.addContact(c);
-//		
-//		Assert.assertEquals(c.getFirstName(), "Anthony");
-//		Assert.assertEquals(c.getLastName(), "Simonet");
+		contactService.removeGroup(newGroup, true);
+		
+		
+		Assert.assertTrue(contactService.getContactsByUser(user).isEmpty());
 	}
 }

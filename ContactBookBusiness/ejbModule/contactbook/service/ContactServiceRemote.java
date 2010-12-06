@@ -2,9 +2,9 @@ package contactbook.service;
 
 import java.util.List;
 
-import contactbook.dao.ContactSearchCriteria;
 import contactbook.model.Contact;
 import contactbook.model.Group;
+import contactbook.model.User;
 
 public interface ContactServiceRemote {
 	public static String JNDI = "ContactBookEar/ContactServiceImpl/remote";
@@ -15,15 +15,17 @@ public interface ContactServiceRemote {
 	
 	public Contact updateContact(Contact c);
 	
-	public List<Contact> getContacts1();
-
-	public List<Contact> findBy(ContactSearchCriteria criteria);
-	
 	public Group addGroup(Group group);
 	
 	public void removeGroup(Group group, boolean removeContacts);
 	
-	public List<Group> getGroups();
+	public List<Contact> getContactsByGroup(Group g);
 	
-	public List<Contact> getContacts2(Group g);
+	public void addUser(User user);
+	
+	public List<Contact> getContactsByUser(User user);
+	
+	public List<Group> getGroupsByUser(User user);
+	
+	public void removeUser(User user);
 }

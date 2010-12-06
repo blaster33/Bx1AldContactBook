@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jdt.internal.compiler.ast.SuperReference;
+
 import contactbook.webapp.client.GreetingService;
 import contactbook.webapp.shared.FieldVerifier;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -16,13 +18,13 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  */
 @SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements
-		GreetingService {
+GreetingService {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	throws ServletException, IOException {
 		System.out.println("Query string: " + req.getQueryString());			
-		
+
 		Enumeration params = req.getParameterNames();
 		while(params.hasMoreElements()) {
 			String param = (String) params.nextElement();
@@ -30,8 +32,11 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			System.out.println(param + " -> " + value);
 		}
 		
-		greetServer("username");
-		super.doGet(req, resp);
+		perThreadRequest = new ThreadLocal<javax.servlet.http.HttpServletRequest>();
+		perThreadResponse = new ThreadLocal<javax.servlet.http.HttpServletResponse>();
+		perThreadRequest.set(req);
+		perThreadResponse.set(resp);
+		resp.getOutputStream().print(greetServer("username"));
 	}
 
 	public String greetServer(String input) throws IllegalArgumentException {
@@ -41,7 +46,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			// If the input is not valid, throw an IllegalArgumentException back to
 			// the client.
 			throw new IllegalArgumentException(
-					"Name must be at least 4 characters long");
+			"Name must be at least 4 characters long");
 		}
 
 		String serverInfo = getServletContext().getServerInfo();
@@ -52,7 +57,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		userAgent = escapeHtml(userAgent);
 
 		return "Hello, " + input + "!<br>" + input + ": it's not my time<br><br>I am running " + serverInfo
-				+ ".<br><br>It looks like you are using:<br>" + userAgent;
+		+ ".<br><br>It looks like you are using:<br>" + userAgent;
 	}
 
 	/**
@@ -67,6 +72,6 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			return null;
 		}
 		return html.replaceAll("&", "&amp;").replaceAll("<", "&lt;")
-				.replaceAll(">", "&gt;");
+		.replaceAll(">", "&gt;");
 	}
 }
