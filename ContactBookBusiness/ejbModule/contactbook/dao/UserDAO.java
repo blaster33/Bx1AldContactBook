@@ -7,11 +7,13 @@ import contactbook.model.Group;
 import contactbook.model.User;
 
 public interface UserDAO {
-	public void addUser(User user);
+	public User addUser(User user);
 	
 	public void removeUser(User user);
 	
-	public void updateUser(User user);
+	public User updateUser(User user);
+	
+	public User refreshUser(User u);
 	
 	public List<Contact> getContacts(User user);
 	

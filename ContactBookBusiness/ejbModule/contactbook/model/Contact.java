@@ -1,12 +1,11 @@
 package contactbook.model;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 import javax.persistence.*;
-
-import org.apache.log4j.lf5.util.DateFormatManager;
 
 import contactbook.model.Group;
 
@@ -18,6 +17,7 @@ public class Contact implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
+	
 	private String lastName;
 	private String firstName;
 	private String homePhone;
@@ -30,13 +30,25 @@ public class Contact implements Serializable {
 	private String state;
 	private String country;
 	private long dateOfBirth;
-	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.EAGER)
 	private Group group = null;
 	
 	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
 	private User user = null;
 	
+	public Contact() {
+		
+	}
+	
 	public Contact(User user) {
+		this.user = user;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+	
+	public void setUser(User user) {
 		this.user = user;
 	}
 	
@@ -163,7 +175,7 @@ public class Contact implements Serializable {
 		sb.append("Home: " + homePhone + newline);
 		sb.append("Cellphone: " + cellPhone + newline);
 		sb.append("Email: " + email + newline);
-		sb.append("Date of birth: " + new DateFormatManager(Locale.FRANCE).format(new Date(dateOfBirth * 1000)));
+		sb.append("Date of birth: " + DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.FRANCE).format(new Date(dateOfBirth * 1000)));
 
 		return sb.toString();
 	}

@@ -15,17 +15,27 @@ public interface ContactServiceRemote {
 	
 	public Contact updateContact(Contact c);
 	
+	public Contact refreshContact(Contact c);
+	
 	public Group addGroup(Group group);
 	
-	public void removeGroup(Group group, boolean removeContacts);
+	public void removeGroup(Group group, boolean removeContact);
+	
+	public Group updateGroup(Group g);
+	
+	public Group refreshGroup(Group g);
 	
 	public List<Contact> getContactsByGroup(Group g);
 	
-	public void addUser(User user);
+	public User addUser(User u);
+	
+	public void removeUser(User u);
+	
+	public User updateUser(User u);
+	
+	public User refreshUser(User u);
 	
 	public List<Contact> getContactsByUser(User user);
 	
 	public List<Group> getGroupsByUser(User user);
-	
-	public void removeUser(User user);
 }

@@ -6,11 +6,13 @@ import contactbook.model.Contact;
 import contactbook.model.Group;
 
 public interface GroupDAO {
-	public void addGroup(Group group);
+	public Group addGroup(Group group);
 	
-	public void removeGroup(Group group, Boolean removeContacts);
+	public void removeGroup(Group group, boolean removeContact);
 	
-	public void updateGroup(Group group);
+	public Group updateGroup(Group group);
+	
+	public Group refreshGroup(Group g);
 	
 	public List<Group> getGroups();
 	

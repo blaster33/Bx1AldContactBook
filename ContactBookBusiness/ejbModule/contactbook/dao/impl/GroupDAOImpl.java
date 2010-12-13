@@ -2,12 +2,14 @@ package contactbook.dao.impl;
 
 import java.util.List;
 
+import javax.annotation.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import contactbook.dao.ContactDAO;
 import contactbook.dao.GroupDAO;
 import contactbook.model.Contact;
 import contactbook.model.Group;
@@ -19,27 +21,62 @@ public class GroupDAOImpl implements GroupDAO {
 
 	@PersistenceContext(unitName="ContactBookPU")
 	protected EntityManager em;
+	
+	@EJB
+	protected ContactDAO contactDAO;
+	
+	private GroupDAOImpl () {
+		contactDAO = ContactDAOImpl.getInstance();
+	}
 
 	public static GroupDAOImpl getInstance() {
 		return instance;
 	}
 
 	@Override
-	public void addGroup(Group g) {
-		em.persist(g);
+	public Group addGroup(Group g) {
+		if(alreadyExists(g))
+			return null;
+		try {
+			em.persist(g);
+		} catch(Exception e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
+		return g;
 	}
 
 	@Override
-	public void removeGroup(Group group, Boolean removeContacts) {
-		for(Contact c: getContacts(group)) {
-			if(removeContacts)
-				ContactDAOImpl.getInstance().removeContact(c);
-			else {
+	public void removeGroup(Group group, boolean removeContact) {
+		em.remove(group);
+		List<Contact> contacts = getContacts(group);
+		for(Contact c: contacts) {
+			if ( removeContact )
+			{
+				contactDAO.removeContact(c);
+			}
+			else
+			{
 				c.setGroup(null);
-				ContactDAOImpl.getInstance().updateContact(c);
+				contactDAO.updateContact(c);
 			}
 		}
-		em.remove(group);
+	}
+	
+	@Override
+	public Group updateGroup(Group g) {
+		if(alreadyExists(g))
+			return null;
+
+		em.merge(g);
+		em.flush();
+		return g;
+	}
+	
+	@Override
+	public Group refreshGroup(Group g) {
+		em.refresh(g);
+		return g;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -56,9 +93,10 @@ public class GroupDAOImpl implements GroupDAO {
 		return em.createQuery("SELECT g from Group g").getResultList();
 	}
 
-	@Override
-	public void updateGroup(Group group) {
-		em.merge(group);
-		em.flush();
+	private boolean alreadyExists(Group g) {
+		Query query = em.createQuery("SELECT g from Group g WHERE g.user = :user AND g.groupName = :name");
+		query.setParameter("user", g.getUser());
+		query.setParameter("name", g.getName());
+		return query.getResultList().size() > 0;
 	}
 }

@@ -3,7 +3,6 @@ package contactbook.model;
 import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 import javax.persistence.*;
 
@@ -15,11 +14,23 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
+	
+	@Column(nullable=false)
 	private boolean isAdmin;
+	
+	@Column(unique=true, nullable=false)
 	private String loginName;
+	
+	@Column(nullable=false)
 	private String password;
+	
+	@Column(nullable=true)
 	private long lastLogin;
 
+	public User() {
+		
+	}
+	
 	public User(String login, String password, boolean isAdmin) {
 		this.loginName = login;
 		

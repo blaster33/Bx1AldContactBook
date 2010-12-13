@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -23,19 +24,32 @@ public class ContactDAOImpl implements ContactDAO {
 	}
 
 	@Override
-	public void addContact(Contact c) {
+	public Contact addContact(Contact c) {
 		em.persist(c);
+		return c;
 	}
 
 	@Override
 	public void removeContact(Contact c) {
-		em.remove(c);
+		try {
+			em.remove(c);
+		} catch(Exception e) {
+			System.err.println("------------------------------");
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public void updateContact(Contact c) {
+	public Contact updateContact(Contact c) {
 		em.merge(c);
 		em.flush();
+		return c;
+	}
+	
+	@Override
+	public Contact refreshContact(Contact c) {
+		em.refresh(c);
+		return c;
 	}
 
 	@SuppressWarnings("unchecked")

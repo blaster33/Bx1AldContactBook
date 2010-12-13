@@ -1,3 +1,4 @@
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -11,7 +12,6 @@ import contactbook.service.ContactServiceRemote;
 
 public class ContactTest extends TestCase {
 	private ContactServiceRemote contactService;
-	//private ContactSearchCriteria searchCriteria;
 	
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -25,7 +25,6 @@ public class ContactTest extends TestCase {
 			System.err.println(e.getExplanation());
 			e.printStackTrace();
 		}
-		//searchCriteria = new ContactSearchCriteria();
 	}
 	
 	protected void tearDown() throws Exception {
@@ -34,7 +33,8 @@ public class ContactTest extends TestCase {
 	
 	public void testAddContact() throws Exception {
 		User user = new User("antho", "toto", true);
-		contactService.addUser(user);
+		user = contactService.addUser(user);
+		assertTrue("User id validated", user.getId() > 0);
 		
 		Contact c = new Contact(user);
 		c.setFirstName("Florian");
@@ -48,31 +48,45 @@ public class ContactTest extends TestCase {
 		//Calendar cal = Calendar.getInstance();
 		//cal.clear();
 		//cal.set(1988, Calendar.SEPTEMBER, 22);
-//		c.setDateOfBirth(cal);
+		//c.setDateOfBirth(cal);
 		c.setCellPhone("0627498448");
 		c.setHomePhone("0556391930");
 		c.setEmail("blaster33300@hotmail.com");
 		
+		
+		// Insert a new group
 		Group group = new Group(user, "Famille");
+		group = contactService.addGroup(group);
+		Assert.assertTrue("group id validated", group.getId() > 0);
+
 		c.setGroup(group);
-		contactService.addGroup(group);
-		contactService.addContact(c);
+		c = contactService.addContact(c);
+		Assert.assertTrue("contact id valuated", c.getId() > 0);
 		
 		Contact c2 = contactService.getContactsByUser(user).get(0);
-		Assert.assertTrue("Id valuated", c2.getId() > 0);
+		Assert.assertTrue("contact retrieved", c2.getId() > 0);
 		
 		c2 = contactService.getContactsByGroup(contactService.getGroupsByUser(user).get(0)).get(0);
-		Assert.assertTrue("Id valuated", c2.getId() > 0);
-		
+		Assert.assertTrue("contact 2 id valuated", c2.getId() > 0);
+
 		contactService.removeGroup(group, false);
+		c = contactService.refreshContact(c);
 		
+		// Assign a new group to the contact
 		Group newGroup = new Group(user, "New group");
+		newGroup = contactService.addGroup(newGroup);
 		c.setGroup(newGroup);
-		contactService.updateContact(c);
+		c = contactService.updateContact(c);
+		Assert.assertTrue("group id validated", newGroup.getId() > 0);
+		Assert.assertTrue("group validated for contact", c.getGroup().getId() > 0);
+		
+		// Try to add an new user with the same login name
+		User newUser = new User("antho", "1234", false);
+		newUser = contactService.addUser(newUser);
+		
+		Assert.assertNull("check identical user insert failed", newUser);
 		
 		contactService.removeGroup(newGroup, true);
-		
-		
 		Assert.assertTrue(contactService.getContactsByUser(user).isEmpty());
 	}
 }
