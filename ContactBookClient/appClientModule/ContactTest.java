@@ -1,4 +1,5 @@
 
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -29,6 +30,8 @@ public class ContactTest extends TestCase {
 	
 	protected void tearDown() throws Exception {
 		super.tearDown();
+		for(User user: contactService.getUsers())
+			contactService.removeUser(user);
 	}
 	
 	public void testAddContact() throws Exception {
@@ -65,9 +68,6 @@ public class ContactTest extends TestCase {
 		
 		Contact c2 = contactService.getContactsByUser(user).get(0);
 		Assert.assertTrue("contact retrieved", c2.getId() > 0);
-		
-		c2 = contactService.getContactsByGroup(contactService.getGroupsByUser(user).get(0)).get(0);
-		Assert.assertTrue("contact 2 id valuated", c2.getId() > 0);
 
 		contactService.removeGroup(group, false);
 		c = contactService.refreshContact(c);
@@ -88,5 +88,36 @@ public class ContactTest extends TestCase {
 		
 		contactService.removeGroup(newGroup, true);
 		Assert.assertTrue(contactService.getContactsByUser(user).isEmpty());
+		contactService.removeUser(user);
+	}
+	
+	public void testDefaultGroup() throws Exception {
+		User user = new User("antho", "tata", true);
+		user = contactService.addUser(user);
+		assertTrue("User id validated", user.getId() > 0);
+		
+		Contact c = new Contact(user);
+		c.setFirstName("Florian");
+		c.setLastName("Blois");
+		c.setAddress1("3 rue Henri Expert");
+		c.setAddress2("Appt. 24");
+		c.setZipCode("33300");
+		c.setCity("Bordeaux");
+		c.setState("Gironde");
+		c.setCountry("FRANCE");
+		//Calendar cal = Calendar.getInstance();
+		//cal.clear();
+		//cal.set(1988, Calendar.SEPTEMBER, 22);
+		//c.setDateOfBirth(cal);
+		c.setCellPhone("0627498448");
+		c.setHomePhone("0556391930");
+		c.setEmail("blaster33300@hotmail.com");
+		
+		c = contactService.addContact(c);
+		Assert.assertTrue("contact id valuated", c.getId() > 0);
+		Assert.assertTrue("contact group id valuated", c.getGroup().getId() > 0);
+		Assert.assertTrue("user default group id valuated", user.getDefaultGroup().getId() > 0);
+		Assert.assertTrue("check contact group id", c.getGroup().getId() == user.getDefaultGroup().getId());
+		Assert.assertTrue("check contact group name", c.getGroup().getName().equals("Default"));
 	}
 }

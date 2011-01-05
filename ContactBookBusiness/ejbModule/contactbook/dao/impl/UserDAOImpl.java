@@ -2,6 +2,7 @@ package contactbook.dao.impl;
 
 import java.util.List;
 
+import javax.annotation.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 
@@ -9,6 +10,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import contactbook.dao.ContactDAO;
+import contactbook.dao.GroupDAO;
 import contactbook.dao.UserDAO;
 import contactbook.model.Contact;
 import contactbook.model.Group;
@@ -21,6 +24,13 @@ public class UserDAOImpl implements UserDAO {
 
 	@PersistenceContext(unitName="ContactBookPU")
 	protected EntityManager em;
+	
+	@EJB
+	protected GroupDAO groupDAO;
+	
+	private UserDAOImpl () {
+		groupDAO = GroupDAOImpl.getInstance();
+	}
 
 	public static UserDAOImpl getInstance() {
 		return instance;
@@ -36,14 +46,25 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void removeUser(User user) {
-		em.remove(user);
+
+		try {
+			em.remove(user);
+			List<Group> groups = getGroup(user);
+			
+			for(Group g: groups)
+				groupDAO.removeGroup(g, true);
+			//user.setDefaultGroup(null);
+			//user = userDAO.updateUser(user);
+			em.flush();
+		}
+		catch(Exception e) {
+			System.err.println("-------------- Exception in removeUser");
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
 	public User updateUser(User user) {
-		if(loginNameTaken(user.getLoginName()))
-			return null;
-
 		em.merge(user);
 		em.flush();
 		return user;
@@ -69,6 +90,12 @@ public class UserDAOImpl implements UserDAO {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> getUsers() {
+		return em.createQuery("from User").getResultList();
 	}
 
 	@SuppressWarnings("unchecked")

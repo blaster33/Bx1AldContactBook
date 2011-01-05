@@ -30,10 +30,11 @@ public class Contact implements Serializable {
 	private String state;
 	private String country;
 	private long dateOfBirth;
-	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+	
+	@ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
 	private Group group = null;
 	
-	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
 	private User user = null;
 	
 	public Contact() {

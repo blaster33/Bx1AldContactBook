@@ -18,4 +18,6 @@ public interface UserDAO {
 	public List<Contact> getContacts(User user);
 	
 	public List<Group> getGroup(User user);
+	
+	public List<User> getUsers();
 }

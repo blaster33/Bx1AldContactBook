@@ -26,9 +26,11 @@ public class User implements Serializable {
 	
 	@Column(nullable=true)
 	private long lastLogin;
+	
+	@OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+	private Group defaultGroup = null;
 
 	public User() {
-		
 	}
 	
 	public User(String login, String password, boolean isAdmin) {
@@ -74,6 +76,14 @@ public class User implements Serializable {
 
 	public void setLastLogin(long lastLogin) {
 		this.lastLogin = lastLogin;
+	}
+	
+	public Group getDefaultGroup() {
+		return defaultGroup;
+	}
+
+	public void setDefaultGroup(Group defaultGroup) {
+		this.defaultGroup = defaultGroup;
 	}
 
 	public boolean checkPassword(String pass) {

@@ -38,4 +38,6 @@ public interface ContactServiceRemote {
 	public List<Contact> getContactsByUser(User user);
 	
 	public List<Group> getGroupsByUser(User user);
+	
+	public List<User> getUsers();
 }

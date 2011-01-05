@@ -61,6 +61,7 @@ public class GroupDAOImpl implements GroupDAO {
 				contactDAO.updateContact(c);
 			}
 		}
+		em.flush();
 	}
 	
 	@Override

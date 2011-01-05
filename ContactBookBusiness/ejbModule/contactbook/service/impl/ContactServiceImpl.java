@@ -39,6 +39,8 @@ public class ContactServiceImpl implements ContactServiceRemote {
 	@WebMethod
 	@Override
 	public Contact addContact(Contact c) {
+		if(c.getGroup() == null)
+			c.setGroup(c.getUser().getDefaultGroup());
 		contactDAO.addContact(c);
 		return c;
 	}
@@ -114,7 +116,19 @@ public class ContactServiceImpl implements ContactServiceRemote {
 	@WebMethod
 	@Override
 	public User addUser(User user) {
-		return userDAO.addUser(user);
+		try {
+			user = userDAO.addUser(user);
+			if(user != null) {
+				user.setDefaultGroup(groupDAO.addGroup(new Group(user, "Default")));
+				user = userDAO.updateUser(user);
+			}
+			return user;
+		} catch(Exception e) {
+			System.err.println("-------------- Exception in addUser");
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 	@WebMethod
@@ -151,5 +165,11 @@ public class ContactServiceImpl implements ContactServiceRemote {
 	@Override
 	public List<Group> getGroupsByUser(User user) {
 		return userDAO.getGroup(user);
+	}
+	
+	@WebMethod
+	@Override
+	public List<User> getUsers() {
+		return userDAO.getUsers();
 	}
 }
