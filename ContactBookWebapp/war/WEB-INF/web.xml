@@ -9,9 +9,19 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
     <servlet-class>contactbook.webapp.server.GreetingServiceImpl</servlet-class>
   </servlet>
   
+  <servlet>
+  	<servlet-name>authServlet</servlet-name>
+  	<servlet-class>contactbook.webapp.server.auth.ContactBookAuthServiceImpl</servlet-class>
+  </servlet>
+  
   <servlet-mapping>
     <servlet-name>greetServlet</servlet-name>
     <url-pattern>/contactbookwebapp/greet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+  	<servlet-name>authServlet</servlet-name>
+  	<url-pattern>/contactbookwebapp/auth</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->

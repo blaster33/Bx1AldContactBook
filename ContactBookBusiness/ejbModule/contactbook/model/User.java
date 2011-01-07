@@ -24,16 +24,19 @@ public class User implements Serializable {
 	@Column(nullable=false)
 	private String password;
 	
+	@Column(nullable=false)
+	private String email;
+	
 	@Column(nullable=true)
 	private long lastLogin;
-	
+
 	@OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
 	private Group defaultGroup = null;
 
 	public User() {
 	}
 	
-	public User(String login, String password, boolean isAdmin) {
+	public User(String login, String password, String email, boolean isAdmin) {
 		this.loginName = login;
 		
 		try {
@@ -43,6 +46,7 @@ public class User implements Serializable {
 			e.printStackTrace();
 		}
 		
+		this.email = email;
 		this.isAdmin = isAdmin;
 	}
 	
@@ -84,6 +88,14 @@ public class User implements Serializable {
 
 	public void setDefaultGroup(Group defaultGroup) {
 		this.defaultGroup = defaultGroup;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public boolean checkPassword(String pass) {

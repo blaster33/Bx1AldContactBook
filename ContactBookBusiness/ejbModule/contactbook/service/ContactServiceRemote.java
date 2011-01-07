@@ -35,9 +35,13 @@ public interface ContactServiceRemote {
 	
 	public User refreshUser(User u);
 	
+	public User getUserByName(String loginName);
+	
 	public List<Contact> getContactsByUser(User user);
 	
 	public List<Group> getGroupsByUser(User user);
 	
 	public List<User> getUsers();
+	
+	public boolean loginNameAvailable(String loginName);
 }

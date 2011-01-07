@@ -172,4 +172,16 @@ public class ContactServiceImpl implements ContactServiceRemote {
 	public List<User> getUsers() {
 		return userDAO.getUsers();
 	}
+	
+	@WebMethod
+	@Override
+	public boolean loginNameAvailable(String loginName) {
+		return !userDAO.loginNameTaken(loginName);
+	}
+
+	@WebMethod
+	@Override
+	public User getUserByName(String loginName) {
+		return userDAO.getUserByName(loginName);
+	}
 }

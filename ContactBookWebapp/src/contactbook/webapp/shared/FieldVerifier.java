@@ -39,4 +39,20 @@ public class FieldVerifier {
 		}
 		return name.length() > 3;
 	}
+
+	/**
+	 * Verifies that a given email address is correct
+	 * 
+	 * Source: http://groups.google.com/group/Google-Web-Toolkit/browse_thread/thread/c70ec2da2e59e94b/955b8da15c5a15b4
+	 * @param email
+	 * @return true if valid, false if invalid
+	 */
+	public static boolean isValidEmailAddress(String email){ 
+		if (email == null)
+			return false; 
+		if (email.matches(".+@.+\\.[a-z]+")) 
+			return true; 
+		else 
+			return false; 
+	} 
 }

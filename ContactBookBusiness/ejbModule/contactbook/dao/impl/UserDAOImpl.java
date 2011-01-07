@@ -10,7 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import contactbook.dao.ContactDAO;
 import contactbook.dao.GroupDAO;
 import contactbook.dao.UserDAO;
 import contactbook.model.Contact;
@@ -106,9 +105,18 @@ public class UserDAOImpl implements UserDAO {
 		return query.getResultList();
 	}
 
-	private boolean loginNameTaken(String loginName) {
+	@Override
+	public boolean loginNameTaken(String loginName) {
+		return getUserByName(loginName) != null;
+	}
+
+	@Override
+	public User getUserByName(String loginName) {
 		Query query = em.createQuery("SELECT u from User u WHERE u.loginName = :login");
 		query.setParameter("login", loginName);
-		return query.getResultList().size() > 0;
+		List res = query.getResultList();
+		if(res.size() != 1)
+			return null;
+		return (User) res.get(0);
 	}
 }

@@ -35,7 +35,7 @@ public class ContactTest extends TestCase {
 	}
 	
 	public void testAddContact() throws Exception {
-		User user = new User("antho", "toto", true);
+		User user = new User("antho", "toto", "antho@me.com", true);
 		user = contactService.addUser(user);
 		assertTrue("User id validated", user.getId() > 0);
 		
@@ -81,7 +81,7 @@ public class ContactTest extends TestCase {
 		Assert.assertTrue("group validated for contact", c.getGroup().getId() > 0);
 		
 		// Try to add an new user with the same login name
-		User newUser = new User("antho", "1234", false);
+		User newUser = new User("antho", "1234", "antho@simonet.com", false);
 		newUser = contactService.addUser(newUser);
 		
 		Assert.assertNull("check identical user insert failed", newUser);
@@ -92,7 +92,7 @@ public class ContactTest extends TestCase {
 	}
 	
 	public void testDefaultGroup() throws Exception {
-		User user = new User("antho", "tata", true);
+		User user = new User("antho", "tata", "az@tg.fr", true);
 		user = contactService.addUser(user);
 		assertTrue("User id validated", user.getId() > 0);
 		

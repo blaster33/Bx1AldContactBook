@@ -15,9 +15,13 @@ public interface UserDAO {
 	
 	public User refreshUser(User u);
 	
+	public User getUserByName(String loginName);
+	
 	public List<Contact> getContacts(User user);
 	
 	public List<Group> getGroup(User user);
 	
 	public List<User> getUsers();
+	
+	public boolean loginNameTaken(String loginName);
 }

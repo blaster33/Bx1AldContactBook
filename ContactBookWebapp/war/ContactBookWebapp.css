@@ -10,6 +10,24 @@ h1 {
   text-align: center;
 }
 
+.center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.formError {
+  color: red;
+}
+
+.formValid {
+  color: green;
+}
+
+.loginForm {
+	width: 300px;
+	height: 90px;	
+}
+
 .sendButton {
   display: block;
   font-size: 16pt;
@@ -22,6 +40,10 @@ h1 {
 
 .dialogVPanel {
   margin: 5px;
+}
+
+.infoText {
+  color: green;
 }
 
 .serverResponseLabelError {
