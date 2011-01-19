@@ -2,43 +2,56 @@ package contactbook.webapp.client.components;
 
 import java.util.List;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import contactbook.model.Contact;
+import contactbook.webapp.client.ContactBookWebapp;
+import contactbook.webapp.client.business.ContactBookBusinessServiceAsync;
+import contactbook.webapp.client.dto.ContactDTO;
+import contactbook.webapp.client.dto.UserDTO;
+import contactbook.webapp.shared.Message;
 
 public class LeftPanel extends VerticalPanel {
-	protected List<Contact> contacts;
-	
-	public LeftPanel() {
+	protected ContactBookBusinessServiceAsync businessService;
+	protected UserDTO user;
+	protected ContactBookWebapp webApp;
+
+	public LeftPanel(UserDTO user, ContactBookBusinessServiceAsync businessService,
+			ContactBookWebapp webApp) {
+		
 		getElement().setId("leftPanel");
 		add(new Button("test"));
 		setSize("100%", "100%");
-	}
-	
-	public LeftPanel(List<Contact> contacts) {
-		this();
-		setContacts(contacts);
+		
+		this.businessService = businessService;
+		this.webApp = webApp;
+		setUser(user);
 		refresh();
 	}
 	
-	public void setContacts(List<Contact> contacts) {
-		this.contacts = contacts;
+	public UserDTO getUser() {
+		return user;
 	}
-	
-	public List<Contact> getContacts() {
-		return contacts;
+
+	public void setUser(UserDTO user) {
+		this.user = user;
 	}
 	
 	public void refresh() {
 		clear();
-		
-		if(contacts == null)
-			return;
-		
-		for(Contact u: contacts) {
-			add(new HTML(u.getFirstName() + " " + u.getLastName() + "<br />"));
-		}
+		businessService.getContacts(user, new AsyncCallback<List<ContactDTO>>() {
+			public void onSuccess(List<ContactDTO> contacts) {
+				for(ContactDTO c: contacts) {
+					add(new HTML(c.getFirstName() + " " + c.getLastName() + "<br />"));
+				}
+			}
+			
+			public void onFailure(Throwable arg0) {
+				webApp.showError(Message.ERROR, Message.ERROR_LOADING_CONTACTS +
+						"<br />" + arg0.getMessage());
+			}
+		});
 	}
 }

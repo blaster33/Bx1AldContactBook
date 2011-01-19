@@ -2,11 +2,14 @@ package contactbook.webapp.client;
 
 import contactbook.webapp.client.auth.ContactBookAuthService;
 import contactbook.webapp.client.auth.ContactBookAuthServiceAsync;
+import contactbook.webapp.client.business.ContactBookBusinessService;
+import contactbook.webapp.client.business.ContactBookBusinessServiceAsync;
 import contactbook.webapp.client.components.LeftPanel;
-import contactbook.webapp.client.components.LoginForm;
+import contactbook.webapp.client.components.forms.LoginForm;
 import contactbook.webapp.client.components.MainPanel;
-import contactbook.webapp.client.components.RegistrationForm;
+import contactbook.webapp.client.components.forms.RegistrationForm;
 import contactbook.webapp.client.components.TopBar;
+import contactbook.webapp.client.dto.*;
 import contactbook.webapp.shared.Message;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -29,14 +32,17 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class ContactBookWebapp implements EntryPoint {
-	//private final GreetingServiceAsync authService = GWT.create(GreetingService.class);
 	private final ContactBookAuthServiceAsync authService = GWT.create(ContactBookAuthService.class);
+	private final ContactBookBusinessServiceAsync businessService = GWT.create(ContactBookBusinessService.class);
 	
-	FlowPanel flowPanel;
+	private UserDTO user;
+	protected FlowPanel flowPanel;
 	
-	DialogBox dialogBox;
-	HTML errorLabel;
-	Button closeButton;
+	protected DialogBox dialogBox;
+	protected HTML errorLabel;
+	protected Button closeButton;
+	
+	protected LeftPanel leftPanel;
 	
 	public ContactBookWebapp() {
 		flowPanel = new FlowPanel();
@@ -86,7 +92,8 @@ public class ContactBookWebapp implements EntryPoint {
 		});
 	}
 	
-	public void loginSuccess() {
+	public void loginSuccess(UserDTO user) {
+		this.user = user;
 		showInfo("Info", Message.LOGIN_SUCCESSFUL);
 		displayMainUI();
 	}
@@ -113,11 +120,14 @@ public class ContactBookWebapp implements EntryPoint {
 	}
 	
 	public void displayMainUI() {
+		if(leftPanel == null)
+			leftPanel = new LeftPanel(user, businessService, this);
+		
 		RootPanel.get().clear();
 		DockLayoutPanel dlp = new DockLayoutPanel(Unit.PX);
 		
 		dlp.addNorth(new TopBar(this, authService), 30);
-		dlp.addWest(new LeftPanel(), 150);
+		dlp.addWest(leftPanel, 150);
 		dlp.add(new MainPanel());
 		
 		RootLayoutPanel.get().add(dlp);
@@ -142,5 +152,21 @@ public class ContactBookWebapp implements EntryPoint {
 		errorLabel.setText(message);
 		errorLabel.setStyleName("serverResponseLabelError");
 		dialogBox.center();
+	}
+
+	public ContactBookAuthServiceAsync getAuthService() {
+		return authService;
+	}
+
+	public ContactBookBusinessServiceAsync getBusinessService() {
+		return businessService;
+	}
+	
+	public UserDTO getCurrentUser() {
+		return user;
+	}
+	
+	public void refreshLeft() {
+		leftPanel.refresh();
 	}
 }

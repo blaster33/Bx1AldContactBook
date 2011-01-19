@@ -14,6 +14,11 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
   	<servlet-class>contactbook.webapp.server.auth.ContactBookAuthServiceImpl</servlet-class>
   </servlet>
   
+  <servlet>
+  	<servlet-name>businessServlet</servlet-name>
+  	<servlet-class>contactbook.webapp.server.business.ContactBookBusinessServiceImpl</servlet-class>
+  </servlet>
+  
   <servlet-mapping>
     <servlet-name>greetServlet</servlet-name>
     <url-pattern>/contactbookwebapp/greet</url-pattern>
@@ -22,6 +27,11 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
   <servlet-mapping>
   	<servlet-name>authServlet</servlet-name>
   	<url-pattern>/contactbookwebapp/auth</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+  	<servlet-name>businessServlet</servlet-name>
+  	<url-pattern>/contactbookwebapp/business</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->

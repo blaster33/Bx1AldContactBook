@@ -2,8 +2,11 @@ package contactbook.webapp.client.auth;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import contactbook.model.User;
+import contactbook.webapp.client.dto.UserDTO;
+
 public interface ContactBookAuthServiceAsync {
-	void login(String username, String password, AsyncCallback<Boolean> callback);
+	void login(String username, String password, AsyncCallback<UserDTO> callback);
 	
 	void logout(AsyncCallback<Boolean> callback) throws RuntimeException;
 	

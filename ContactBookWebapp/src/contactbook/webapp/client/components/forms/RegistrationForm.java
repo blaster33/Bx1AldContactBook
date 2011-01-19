@@ -1,4 +1,4 @@
-package contactbook.webapp.client.components;
+package contactbook.webapp.client.components.forms;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -7,19 +7,16 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 import contactbook.webapp.client.ContactBookWebapp;
 import contactbook.webapp.client.auth.ContactBookAuthServiceAsync;
 import contactbook.webapp.shared.FieldVerifier;
 import contactbook.webapp.shared.Message;
 
-public class RegistrationForm extends VerticalPanel {
+public class RegistrationForm extends AsyncForm {
 	private static RegistrationForm instance = null;
 	
 	private boolean loginAvailable = false;
@@ -46,15 +43,15 @@ public class RegistrationForm extends VerticalPanel {
 		Button loginButton = new Button("Register an account");
 
 		add(new HTML("Username:"));
-		add(new Pair(loginField, loginError));
+		add(new WidgetPair(loginField, loginError));
 		add(new HTML("Password:"));
-		add(new Pair(passwordField, passwordError));
+		add(new WidgetPair(passwordField, passwordError));
 		add(new HTML("Confirm password:"));
-		add(new Pair(confirmPasswordField, confirmPasswordError));
+		add(new WidgetPair(confirmPasswordField, confirmPasswordError));
 		add(new HTML("Email:"));
-		add(new Pair(emailField, emailError));
+		add(new WidgetPair(emailField, emailError));
 		add(new HTML("Confirm email:"));
-		add(new Pair(confirmEmailField,confirmEmailError));
+		add(new WidgetPair(confirmEmailField,confirmEmailError));
 		add(loginButton);
 		
 		HTML loginLink = new HTML("<a href=\"#\">Already have an account?");
@@ -179,13 +176,6 @@ public class RegistrationForm extends VerticalPanel {
 
 		addStyleName("loginForm");
 		addStyleName("center");
-	}
-
-	class Pair extends HorizontalPanel {
-		public Pair(Widget left, Widget right) {
-			add(left);
-			add(right);
-		}
 	}
 	
 	public static RegistrationForm getInstance(ContactBookWebapp webApp, ContactBookAuthServiceAsync authService) {

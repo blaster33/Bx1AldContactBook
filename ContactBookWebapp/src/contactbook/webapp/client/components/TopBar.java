@@ -17,7 +17,7 @@ public class TopBar extends HorizontalPanel {
 			public void onClick(ClickEvent arg0) {
 				authService.logout(new AsyncCallback<Boolean>() {
 					public void onFailure(Throwable arg0) {
-						webapp.showError("Error", Message.LOGOUT_ERROR);
+						webapp.showError("Error", Message.ERROR_LOGOUT);
 					}
 
 					public void onSuccess(Boolean arg0) {

@@ -15,6 +15,8 @@ import java.util.Calendar;
 import contactbook.model.User;
 import contactbook.service.ContactServiceRemote;
 import contactbook.webapp.client.auth.ContactBookAuthService;
+import contactbook.webapp.client.dto.UserDTO;
+import contactbook.webapp.server.DtoUtils;
 
 public class ContactBookAuthServiceImpl extends RemoteServiceServlet implements
 		ContactBookAuthService {
@@ -39,7 +41,7 @@ public class ContactBookAuthServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public boolean login(String username, String password) {
+	public UserDTO login(String username, String password) {
 		HttpServletRequest req = this.getThreadLocalRequest();
 		HttpSession session = req.getSession();
 		
@@ -47,14 +49,15 @@ public class ContactBookAuthServiceImpl extends RemoteServiceServlet implements
 		if(user == null || !user.checkPassword(password)) {
 			currentSessions.remove(session.getId());
 			session.invalidate();
-			return false;
+			return null;
 		}
 		
 		// user ok, register session
 		currentSessions.put(session.getId(), user);
 		user.setLastLogin(Calendar.getInstance().getTimeInMillis());
 		contactService.updateUser(user);
-		return true;
+		
+		return DtoUtils.dtoFromUser(user);
 	}
 
 	@Override

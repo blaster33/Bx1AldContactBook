@@ -1,4 +1,4 @@
-package contactbook.webapp.client.components;
+package contactbook.webapp.client.components.forms;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -7,13 +7,13 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 import contactbook.webapp.client.ContactBookWebapp;
 import contactbook.webapp.client.auth.ContactBookAuthServiceAsync;
+import contactbook.webapp.client.dto.UserDTO;
 import contactbook.webapp.shared.Message;
 
-public class LoginForm extends VerticalPanel {
+public class LoginForm extends AsyncForm {
 	public LoginForm(final ContactBookWebapp webApp, final ContactBookAuthServiceAsync authService) {
 		final TextBox loginField = new TextBox();
 		final TextBox passwordField = new PasswordTextBox();
@@ -35,14 +35,14 @@ public class LoginForm extends VerticalPanel {
 		
 		loginButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent arg0) {
-				authService.login(loginField.getValue(), passwordField.getValue(), new AsyncCallback<Boolean>() {
+				authService.login(loginField.getValue(), passwordField.getValue(), new AsyncCallback<UserDTO>() {
 					public void onFailure(Throwable arg0) {
 						webApp.showError("Login error", Message.SERVER_ERROR);
 					}
 
-					public void onSuccess(Boolean res) {
-						if(res)
-							webApp.loginSuccess();
+					public void onSuccess(UserDTO user) {
+						if(user != null)
+							webApp.loginSuccess(user);
 						else
 							webApp.showError("Login error", Message.INVALID_LOGIN_INFO);
 					}

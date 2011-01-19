@@ -27,10 +27,39 @@ public class Message {
 	public static final String CONFIRM_EMAIL = "Please confirm your email address";
 	public static final String EMAILS_DIFFERENT = "Email addresses are different";
 	public static final String INVALID_EMAIL = "Please provide a valid email address";
+	public static final String EMPTY_GROUP_NAME = "Group name cannot be emty";
+	public static final String EMPTY_FIRST_NAME = "Firt name cannot be empty!";
+	public static final String EMPTY_LAST_NAME = "Last name cannot be empty!";
+	
+	/*
+	 * Groups
+	 */
+	public static final String GROUP = "Group";
+	public static final String GROUP_NAME = "Group name";
+	
+	/*
+	 * Contacts
+	 */
+	public static final String CONTACT = "Contact";
+	public static final String CONTACT_LAST_NAME = "Last name";
+	public static final String CONTACT_FIRST_NAME = "First name";
+	public static final String CONTACT_HOME_PHONE = "Home phone";
+	public static final String CONTACT_CELL_PHONE = "Cell phone";
+	public static final String CONTACT_EMAIL = "Email address";
+	public static final String CONTACT_ADDRESS = "Address";
+	public static final String CONTACT_ZIP_CODE = "Zip code";
+	public static final String CONTACT_CITY = "City";
+	public static final String CONTACT_STATE = "State";
+	public static final String CONTACT_COUNTRY = "Country";
+	public static final String CONTACT_DOB = "Date of birth";
 	
 	/*
 	 * Various strings
 	 */
+	public static final String SAVE = "Save";
+	public static final String ERROR = "Error";
 	public static final String LOGOUT = "Logout";
-	public static final String LOGOUT_ERROR = "Unable to logout.\nPlease try again.";
+	public static final String ERROR_LOGOUT = "Unable to logout.\nPlease try again.";
+	public static final String ERROR_LOADING_CONTACTS = "Unable to load contacts from server!";
+	public static final String ERROR_SAVING_GROUP = "An error occured: unable to save the group.";
 }

@@ -3,15 +3,18 @@ package contactbook.webapp.client.auth;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import contactbook.model.User;
+import contactbook.webapp.client.dto.UserDTO;
+
 @RemoteServiceRelativePath("auth")
 public interface ContactBookAuthService extends RemoteService {
 	/**
 	 * Check the login info and register the session if they are correct
 	 * @param username the account login name
 	 * @param password the account password in clear text
-	 * @return a text response form the server
+	 * @return a User object
 	 */
-	boolean login(String username, String password);
+	UserDTO login(String username, String password);
 	
 	/**
 	 * Ask the server to destroy the session info in order to log out the current user
