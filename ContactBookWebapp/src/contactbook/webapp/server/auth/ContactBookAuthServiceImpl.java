@@ -15,7 +15,6 @@ import java.util.Calendar;
 import contactbook.model.User;
 import contactbook.service.ContactServiceRemote;
 import contactbook.webapp.client.auth.ContactBookAuthService;
-import contactbook.webapp.shared.Message;
 
 public class ContactBookAuthServiceImpl extends RemoteServiceServlet implements
 		ContactBookAuthService {

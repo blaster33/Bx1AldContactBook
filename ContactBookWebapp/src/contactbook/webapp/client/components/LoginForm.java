@@ -14,9 +14,7 @@ import contactbook.webapp.client.auth.ContactBookAuthServiceAsync;
 import contactbook.webapp.shared.Message;
 
 public class LoginForm extends VerticalPanel {
-	private static LoginForm instance = null;
-	
-	private LoginForm(final ContactBookWebapp webApp, final ContactBookAuthServiceAsync authService) {
+	public LoginForm(final ContactBookWebapp webApp, final ContactBookAuthServiceAsync authService) {
 		final TextBox loginField = new TextBox();
 		final TextBox passwordField = new PasswordTextBox();
 		Button loginButton = new Button("Login");
@@ -54,12 +52,5 @@ public class LoginForm extends VerticalPanel {
 		
 		addStyleName("loginForm");
 		addStyleName("center");
-	}
-	
-	public static LoginForm getInstance(ContactBookWebapp webApp, ContactBookAuthServiceAsync authService) {
-		if(instance == null)
-			instance = new LoginForm(webApp, authService);
-		
-		return instance;
 	}
 }

@@ -27,4 +27,10 @@ public class Message {
 	public static final String CONFIRM_EMAIL = "Please confirm your email address";
 	public static final String EMAILS_DIFFERENT = "Email addresses are different";
 	public static final String INVALID_EMAIL = "Please provide a valid email address";
+	
+	/*
+	 * Various strings
+	 */
+	public static final String LOGOUT = "Logout";
+	public static final String LOGOUT_ERROR = "Unable to logout.\nPlease try again.";
 }
