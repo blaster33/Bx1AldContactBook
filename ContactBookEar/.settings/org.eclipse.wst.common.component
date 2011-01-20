@@ -10,5 +10,9 @@
             <dependent-object>WebModule_1291626883348</dependent-object>
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="ContactBookWebapp.war" deploy-path="/" handle="module:/resource/ContactBookWebapp/ContactBookWebapp">
+            <dependent-object>WebModule_1295472697977</dependent-object>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
     </wb-module>
 </project-modules>

@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.TextBox;
 import contactbook.webapp.client.ContactBookWebapp;
 import contactbook.webapp.client.business.ContactBookBusinessServiceAsync;
 import contactbook.webapp.client.dto.ContactDTO;
-import contactbook.webapp.client.dto.GroupDTO;
 import contactbook.webapp.shared.Message;
 
 public class ContactEditForm extends AsyncForm {
@@ -125,15 +124,15 @@ public class ContactEditForm extends AsyncForm {
 				dto.setDateOfBirth(Long.parseLong(dateOfBirthField.getText()));
 				
 				
-				contactService.addGroup(dto, new AsyncCallback<Boolean>() {
+				contactService.addOrUpdateContact(dto, new AsyncCallback<Boolean>() {
 					public void onSuccess(Boolean res) {
 						webApp.refreshLeft();
-						observable.formValidated();
+						formValidated();
 					}
 					
 					public void onFailure(Throwable arg0) {
 						webApp.showError(Message.ERROR, Message.ERROR_SAVING_GROUP);
-						observable.formValidated();
+						formValidated();
 					}
 				});
 			}

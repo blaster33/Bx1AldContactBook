@@ -11,8 +11,7 @@ import javax.persistence.Query;
 
 import contactbook.dao.ContactDAO;
 import contactbook.dao.GroupDAO;
-import contactbook.model.Contact;
-import contactbook.model.Group;
+import contactbook.model.*;
 
 @Stateless
 @Local(GroupDAO.class)
@@ -99,5 +98,18 @@ public class GroupDAOImpl implements GroupDAO {
 		query.setParameter("user", g.getUser());
 		query.setParameter("name", g.getName());
 		return query.getResultList().size() > 0;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Group getGroup(String groupName, User user) {
+		Query query = em.createQuery("SELECT g from Group g WHERE g.user = :user AND g.groupName = :name");
+		query.setParameter("user", user);
+		query.setParameter("name", groupName);
+		List<Group> list = query.getResultList();
+		
+		if(list == null || list.size() > 1)
+			return null;
+		return list.get(0);
 	}
 }

@@ -1,56 +1,48 @@
 package contactbook.webapp.client.components.forms;
 
-import java.util.Observable;
-import java.util.Observer;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import contactbook.webapp.client.components.util.FormObserver;
+
 public abstract class AsyncForm extends VerticalPanel {
-	protected PrivateObservable observable = new PrivateObservable();
+	private Set<FormObserver> observers = new HashSet<FormObserver>();
+	private boolean changed = false;
 	
-	public void setValidated() {
-		observable.formValidated();
+	public void formValidated() {
+		setChanged();
+		notifyObservers();
 	}
 	
-	/*
-	 * Delegate methods
-	 */
-	public void addObserver(Observer o) {
-		observable.addObserver(o);
+	protected void setChanged() {
+		changed = true;
+	}
+	
+	public void addObserver(FormObserver o) {
+		observers.add(o);
 	}
 
 	public int countObservers() {
-		return observable.countObservers();
+		return observers.size();
 	}
 
-	public void deleteObserver(Observer o) {
-		observable.deleteObserver(o);
+	public void deleteObserver(FormObserver o) {
+		observers.remove(o);
 	}
 
 	public void deleteObservers() {
-		observable.deleteObservers();
-	}
-
-	public void formValidated() {
-		observable.formValidated();
+		observers.clear();
 	}
 
 	public boolean hasChanged() {
-		return observable.hasChanged();
+		return changed;
 	}
 
 	public void notifyObservers() {
-		observable.notifyObservers();
-	}
-
-	public void notifyObservers(Object arg) {
-		observable.notifyObservers(arg);
-	}
-	
-	
-	class PrivateObservable extends Observable {
-		public void formValidated() {
-			setChanged();
-		}
+		for(FormObserver o: observers)
+			o.update(this);
+		changed = false;
 	}
 }

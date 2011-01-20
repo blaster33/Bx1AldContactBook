@@ -60,7 +60,7 @@ implements ContactBookBusinessService {
 	}
 
 	@Override
-	public boolean addGroup(GroupDTO group) {
+	public boolean addOrUpdateGroup(GroupDTO group) {
 		User u = contactService.getUserByName(group.getUser().getLoginName());
 		Group g = DtoUtils.groupFromDTO(group, u);
 		if(g.getId() > 0)
@@ -68,7 +68,23 @@ implements ContactBookBusinessService {
 		else
 			g = contactService.addGroup(g);
 		
-		return g == null;
+		return (g != null && g.getId() > 0);
+	}
+
+	@Override
+	public boolean addOrUpdateContact(ContactDTO dto) {
+		if(dto.getGroup() == null)
+			return false;
+		
+		User user = contactService.getUserByName(dto.getUser().getLoginName());
+		Group group = contactService.getGroupByName(dto.getGroup().getName(), user);
+		Contact contact = DtoUtils.contactFromDTO(dto, user, group);
+		if(contact.getId() > 0)
+			contact = contactService.updateContact(contact);
+		else
+			contact = contactService.addContact(contact);
+		
+		return(contact != null && contact.getId() > 0);
 	}
 
 }

@@ -17,7 +17,7 @@ public class GroupEditForm extends AsyncForm {
 		this(webApp, null);
 	}
 	
-	public GroupEditForm(final ContactBookWebapp webApp, GroupDTO group) {
+	public GroupEditForm(final ContactBookWebapp webApp, final GroupDTO group) {
 		final TextBox nameField = new TextBox();
 		final Label nameLabel = new Label("");
 		
@@ -45,19 +45,17 @@ public class GroupEditForm extends AsyncForm {
 				dto.setName(groupName);
 				dto.setUser(webApp.getCurrentUser());
 				
-				AsyncCallback<Boolean> callback = new AsyncCallback<Boolean>() {
+				contactService.addOrUpdateGroup(dto, new AsyncCallback<Boolean>() {
 					public void onSuccess(Boolean res) {
 						webApp.refreshLeft();
-						observable.formValidated();
+						formValidated();
 					}
 					
 					public void onFailure(Throwable arg0) {
 						webApp.showError(Message.ERROR, Message.ERROR_SAVING_GROUP);
-						observable.formValidated();
+						formValidated();
 					}
-				};
-				
-				// TODO make the call
+				});
 			}
 		});
 	}

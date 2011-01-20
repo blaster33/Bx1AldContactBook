@@ -4,10 +4,10 @@
 	<module id="EjbModule_1289213359623">
 		<ejb>ContactBookBusiness.jar</ejb>
 	</module>
-	<module id="WebModule_1291626883348">
+	<module id="WebModule_1295472697977">
 		<web>
-			<web-uri>ContactBookJSP.war</web-uri>
-			<context-root>ContactBookJSP</context-root>
+			<web-uri>ContactBookWebapp.war</web-uri>
+			<context-root>ContactBookWebapp</context-root>
 		</web>
 	</module>
 </application>

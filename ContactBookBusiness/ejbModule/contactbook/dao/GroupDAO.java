@@ -2,8 +2,7 @@ package contactbook.dao;
 
 import java.util.List;
 
-import contactbook.model.Contact;
-import contactbook.model.Group;
+import contactbook.model.*;
 
 public interface GroupDAO {
 	public Group addGroup(Group group);
@@ -17,4 +16,6 @@ public interface GroupDAO {
 	public List<Group> getGroups();
 	
 	public List<Contact> getContacts(Group group);
+	
+	public Group getGroup(String groupName, User user);
 }

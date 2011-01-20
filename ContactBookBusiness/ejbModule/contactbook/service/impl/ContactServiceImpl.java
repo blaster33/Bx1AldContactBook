@@ -184,4 +184,9 @@ public class ContactServiceImpl implements ContactServiceRemote {
 	public User getUserByName(String loginName) {
 		return userDAO.getUserByName(loginName);
 	}
+
+	@Override
+	public Group getGroupByName(String groupName, User user) {
+		return groupDAO.getGroup(groupName, user);
+	}
 }

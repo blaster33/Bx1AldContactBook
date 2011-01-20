@@ -41,6 +41,8 @@ public interface ContactServiceRemote {
 	
 	public List<Group> getGroupsByUser(User user);
 	
+	public Group getGroupByName(String groupName, User user);
+	
 	public List<User> getUsers();
 	
 	public boolean loginNameAvailable(String loginName);

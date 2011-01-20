@@ -109,12 +109,14 @@ public class ContactBookWebapp implements EntryPoint {
 	
 	public void displayLoginForm() {
 		RootPanel.get().clear();
+		flowPanel.clear();
 		RootPanel.get().add(flowPanel);
 		flowPanel.add(new LoginForm(this, authService));
 	}
 	
 	public void displayRegistrationForm() {
 		RootPanel.get().clear();
+		flowPanel.clear();
 		RootPanel.get().add(flowPanel);
 		flowPanel.add(RegistrationForm.getInstance(this, authService));
 	}
