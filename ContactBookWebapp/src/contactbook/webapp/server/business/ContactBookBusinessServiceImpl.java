@@ -46,6 +46,18 @@ implements ContactBookBusinessService {
 
 		return dtos;
 	}
+	
+	@Override
+	public List<ContactDTO> getContacts(GroupDTO groupDto) {
+		User user = contactService.getUserByName(groupDto.getUser().getLoginName());
+		List<Contact> contacts = contactService.getContactsByGroup(DtoUtils.groupFromDTO(groupDto, user));
+		List<ContactDTO> dtos = new Vector<ContactDTO>();
+		
+		for(Contact c: contacts)
+			dtos.add(DtoUtils.dtoFromContact(c, groupDto, groupDto.getUser()));
+		
+		return dtos;
+	}
 
 	@Override
 	public List<GroupDTO> getGroups(UserDTO userDto) {

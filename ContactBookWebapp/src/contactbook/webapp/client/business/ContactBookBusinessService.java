@@ -19,6 +19,13 @@ public interface ContactBookBusinessService extends RemoteService {
 	public List<ContactDTO> getContacts(UserDTO user);
 	
 	/**
+	 * Get the list of contacts contained in a group
+	 * @param group the group to load contacts from
+	 * @return a list of contacts
+	 */
+	public List<ContactDTO> getContacts(GroupDTO group);
+	
+	/**
 	 * Get the list of groups owned by a given user
 	 * @param user the user to get the groups from
 	 * @return a {@link java.util.List} of {@link Group}

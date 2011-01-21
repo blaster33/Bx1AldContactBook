@@ -9,6 +9,8 @@ import contactbook.webapp.client.dto.*;
 public interface ContactBookBusinessServiceAsync {
 	public void getContacts(UserDTO user, AsyncCallback<List<ContactDTO>> callback);
 	
+	public void getContacts(GroupDTO group, AsyncCallback<List<ContactDTO>> callback);
+	
 	public void getGroups(UserDTO user, AsyncCallback<List<GroupDTO>> callback);
 	
 	public void addOrUpdateGroup(GroupDTO group, AsyncCallback<Boolean> callback);

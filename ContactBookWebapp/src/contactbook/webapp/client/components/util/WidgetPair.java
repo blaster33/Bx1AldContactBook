@@ -1,4 +1,4 @@
-package contactbook.webapp.client.components.forms;
+package contactbook.webapp.client.components.util;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;

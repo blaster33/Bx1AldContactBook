@@ -1,57 +1,41 @@
 package contactbook.webapp.client.components;
 
-import java.util.List;
-
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 import contactbook.webapp.client.ContactBookWebapp;
 import contactbook.webapp.client.business.ContactBookBusinessServiceAsync;
-import contactbook.webapp.client.dto.ContactDTO;
-import contactbook.webapp.client.dto.UserDTO;
+import contactbook.webapp.client.components.widgets.LinksContactList;
+import contactbook.webapp.client.components.widgets.TreeContactList;
 import contactbook.webapp.shared.Message;
 
-public class LeftPanel extends VerticalPanel {
+public class LeftPanel extends TabLayoutPanel {
 	protected ContactBookBusinessServiceAsync businessService;
-	protected UserDTO user;
 	protected ContactBookWebapp webApp;
 
-	public LeftPanel(UserDTO user, ContactBookBusinessServiceAsync businessService,
-			ContactBookWebapp webApp) {
-		
+	protected LinksContactList linksList;
+	protected TreeContactList treeList;
+
+	public LeftPanel(ContactBookWebapp webApp, ContactBookBusinessServiceAsync businessService) {
+		super(25, Unit.PX);
 		getElement().setId("leftPanel");
-		add(new Button("test"));
 		setSize("100%", "100%");
 		
 		this.businessService = businessService;
 		this.webApp = webApp;
-		setUser(user);
+
+		linksList = new LinksContactList(webApp);
+		linksList.setSize("100%", "100%");
+		add(linksList, Message.ALL);
+		
+		treeList = new TreeContactList(webApp);
+		treeList.setSize("100%", "100%");
+		add(treeList, Message.BY_GROUP);
 		refresh();
 	}
 	
-	public UserDTO getUser() {
-		return user;
-	}
-
-	public void setUser(UserDTO user) {
-		this.user = user;
-	}
-	
 	public void refresh() {
-		clear();
-		businessService.getContacts(user, new AsyncCallback<List<ContactDTO>>() {
-			public void onSuccess(List<ContactDTO> contacts) {
-				for(ContactDTO c: contacts) {
-					add(new HTML(c.getFirstName() + " " + c.getLastName() + "<br />"));
-				}
-			}
-			
-			public void onFailure(Throwable arg0) {
-				webApp.showError(Message.ERROR, Message.ERROR_LOADING_CONTACTS +
-						"<br />" + arg0.getMessage());
-			}
-		});
+		linksList.refresh();
+		treeList.refresh();
 	}
 }

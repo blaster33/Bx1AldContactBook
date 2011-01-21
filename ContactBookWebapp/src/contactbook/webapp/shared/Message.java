@@ -27,7 +27,7 @@ public class Message {
 	public static final String CONFIRM_EMAIL = "Please confirm your email address";
 	public static final String EMAILS_DIFFERENT = "Email addresses are different";
 	public static final String INVALID_EMAIL = "Please provide a valid email address";
-	public static final String EMPTY_GROUP_NAME = "Group name cannot be emty";
+	public static final String EMPTY_GROUP_NAME = "Group name cannot be empty";
 	public static final String EMPTY_FIRST_NAME = "First name cannot be empty!";
 	public static final String EMPTY_LAST_NAME = "Last name cannot be empty!";
 	
@@ -37,10 +37,13 @@ public class Message {
 	public static final String GROUP = "Group";
 	public static final String GROUP_NAME = "Group name";
 	public static final String GROUP_NEW = "New group";
+	public static final String ERROR_LOADING_GROUP_LIST = "An error has occured: unable to load group list";
 	
 	/*
 	 * Contacts
 	 */
+	public static final String CONTACT_CREATE_SUCCESSFUL = "The new contact has been created.";
+	public static final String CONTACT_UPDATE_SUCCESSFUL = "The contact has been updated.";
 	public static final String CONTACT_NEW = "New contact";
 	public static final String CONTACT = "Contact";
 	public static final String CONTACT_LAST_NAME = "Last name";
@@ -58,6 +61,8 @@ public class Message {
 	/*
 	 * Various strings
 	 */
+	public static final String BY_GROUP = "Groups";
+	public static final String ALL = "All";
 	public static final String SAVE = "Save";
 	public static final String ERROR = "Error";
 	public static final String LOGOUT = "Logout";

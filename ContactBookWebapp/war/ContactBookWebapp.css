@@ -15,7 +15,11 @@ h1 {
 	float: right;
 }
 
-#topBar input {
+#contactList {
+	
+}
+
+#topBar .gwt-Button {
 	position: relative;
 	margin-left: 0px;
 	margin-right: 0px;
@@ -25,6 +29,10 @@ h1 {
 .center {
 	margin-left: auto;
 	margin-right: auto;
+}
+
+#mainPanel {
+	overflow: auto;
 }
 
 .formError {
@@ -68,9 +76,9 @@ h1 {
 }
 
 #leftPanel {
-	background-color: #EE4587;	
+	
 }
 
 #mainPanel {
-	background-color: #12DE48;	
+	
 }

@@ -12,3 +12,6 @@
 
 # Ignore cached file
 *.cache.*
+
+# Ignore some bin file
+ContactBookBusiness/bin/

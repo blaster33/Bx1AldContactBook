@@ -18,6 +18,8 @@ public class TopBar extends HorizontalPanel implements ClickHandler {
 	protected Button newGroupButton;
 	protected Button newContactButton;
 	
+	private HorizontalPanel hPanel;
+	
 	public TopBar(final ContactBookWebapp webApp) {
 		this.webApp = webApp;
 		
@@ -33,9 +35,15 @@ public class TopBar extends HorizontalPanel implements ClickHandler {
 
 		setHorizontalAlignment(ALIGN_RIGHT);
 		setSize("100%", "100%");
-		add(newGroupButton);
-		add(newContactButton);
-		add(logoutButton);
+		
+		hPanel = new HorizontalPanel();
+		hPanel.setHorizontalAlignment(ALIGN_RIGHT);
+		
+		hPanel.add(newGroupButton);
+		hPanel.add(newContactButton);
+		hPanel.add(logoutButton);
+		
+		add(hPanel);
 	}
 
 	@Override

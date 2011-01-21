@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.TextBox;
 
 import contactbook.webapp.client.ContactBookWebapp;
 import contactbook.webapp.client.auth.ContactBookAuthServiceAsync;
+import contactbook.webapp.client.components.util.WidgetPair;
 import contactbook.webapp.shared.FieldVerifier;
 import contactbook.webapp.shared.Message;
 

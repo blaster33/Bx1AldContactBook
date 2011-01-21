@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.TextBox;
 
 import contactbook.webapp.client.ContactBookWebapp;
 import contactbook.webapp.client.business.ContactBookBusinessServiceAsync;
+import contactbook.webapp.client.components.util.WidgetPair;
 import contactbook.webapp.client.dto.GroupDTO;
 import contactbook.webapp.shared.Message;
 
@@ -33,8 +34,9 @@ public class GroupEditForm extends AsyncForm {
 		
 		submitButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				String groupName = nameField.getName();
+				String groupName = nameField.getText();
 				
+				nameLabel.setText("");
 				if(groupName.equals("")) {
 					nameLabel.setText(Message.EMPTY_GROUP_NAME);
 					return;

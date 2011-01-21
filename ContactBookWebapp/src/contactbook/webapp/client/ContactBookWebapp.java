@@ -56,13 +56,13 @@ public class ContactBookWebapp implements EntryPoint {
 		if(dockLayoutPanel != null)
 			return;
 		if(leftPanel == null)
-			leftPanel = new LeftPanel(user, businessService, this);
+			leftPanel = new LeftPanel(this, businessService);
 		
 		RootPanel.get().clear();
 		dockLayoutPanel = new DockLayoutPanel(Unit.PX);
 		
-		dockLayoutPanel.addNorth(new TopBar(this), 30);
-		dockLayoutPanel.addWest(leftPanel, 150);
+		dockLayoutPanel.addNorth(new TopBar(this), 25);
+		dockLayoutPanel.addWest(leftPanel, 225);
 		mainPanel = new MainPanel(this);
 		dockLayoutPanel.add(mainPanel);
 	}
