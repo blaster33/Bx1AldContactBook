@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -43,10 +44,27 @@ public class ContactBookWebapp implements EntryPoint {
 	protected Button closeButton;
 	
 	protected LeftPanel leftPanel;
+	protected MainPanel mainPanel;
+	protected DockLayoutPanel dockLayoutPanel;
 	
 	public ContactBookWebapp() {
 		flowPanel = new FlowPanel();
 		flowPanel.setStyleName("center");
+	}
+	
+	protected void initDockLayoutPanel() {
+		if(dockLayoutPanel != null)
+			return;
+		if(leftPanel == null)
+			leftPanel = new LeftPanel(user, businessService, this);
+		
+		RootPanel.get().clear();
+		dockLayoutPanel = new DockLayoutPanel(Unit.PX);
+		
+		dockLayoutPanel.addNorth(new TopBar(this), 30);
+		dockLayoutPanel.addWest(leftPanel, 150);
+		mainPanel = new MainPanel(this);
+		dockLayoutPanel.add(mainPanel);
 	}
 
 	/**
@@ -122,17 +140,9 @@ public class ContactBookWebapp implements EntryPoint {
 	}
 	
 	public void displayMainUI() {
-		if(leftPanel == null)
-			leftPanel = new LeftPanel(user, businessService, this);
-		
+		initDockLayoutPanel();
 		RootPanel.get().clear();
-		DockLayoutPanel dlp = new DockLayoutPanel(Unit.PX);
-		
-		dlp.addNorth(new TopBar(this, authService), 30);
-		dlp.addWest(leftPanel, 150);
-		dlp.add(new MainPanel());
-		
-		RootLayoutPanel.get().add(dlp);
+		RootLayoutPanel.get().add(dockLayoutPanel);
 	}
 	
 	public void showInfo(String title, String message) {
@@ -154,6 +164,11 @@ public class ContactBookWebapp implements EntryPoint {
 		errorLabel.setText(message);
 		errorLabel.setStyleName("serverResponseLabelError");
 		dialogBox.center();
+	}
+	
+	public void setMain(Widget widget) {
+		mainPanel.clear();
+		mainPanel.add(widget);
 	}
 
 	public ContactBookAuthServiceAsync getAuthService() {

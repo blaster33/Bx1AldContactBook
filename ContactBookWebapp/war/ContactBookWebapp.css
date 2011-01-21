@@ -10,8 +10,16 @@ h1 {
   text-align: center;
 }
 
-#content {
-	
+#topBar {
+	text-align: right;
+	float: right;
+}
+
+#topBar input {
+	position: relative;
+	margin-left: 0px;
+	margin-right: 0px;
+	float: right;
 }
 
 .center {

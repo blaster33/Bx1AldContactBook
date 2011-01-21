@@ -28,7 +28,7 @@ public class Message {
 	public static final String EMAILS_DIFFERENT = "Email addresses are different";
 	public static final String INVALID_EMAIL = "Please provide a valid email address";
 	public static final String EMPTY_GROUP_NAME = "Group name cannot be emty";
-	public static final String EMPTY_FIRST_NAME = "Firt name cannot be empty!";
+	public static final String EMPTY_FIRST_NAME = "First name cannot be empty!";
 	public static final String EMPTY_LAST_NAME = "Last name cannot be empty!";
 	
 	/*
@@ -36,10 +36,12 @@ public class Message {
 	 */
 	public static final String GROUP = "Group";
 	public static final String GROUP_NAME = "Group name";
+	public static final String GROUP_NEW = "New group";
 	
 	/*
 	 * Contacts
 	 */
+	public static final String CONTACT_NEW = "New contact";
 	public static final String CONTACT = "Contact";
 	public static final String CONTACT_LAST_NAME = "Last name";
 	public static final String CONTACT_FIRST_NAME = "First name";
