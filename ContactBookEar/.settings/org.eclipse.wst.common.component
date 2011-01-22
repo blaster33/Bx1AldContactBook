@@ -6,12 +6,12 @@
             <dependent-object>EjbModule_1289213359623</dependent-object>
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="ContactBookJSP.war" deploy-path="/" handle="module:/resource/ContactBookJSP/ContactBookJSP">
-            <dependent-object>WebModule_1291626883348</dependent-object>
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="ContactBookWebapp.war" deploy-path="/" handle="module:/resource/ContactBookWebapp/ContactBookWebapp">
             <dependent-object>WebModule_1295472697977</dependent-object>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="ContactBookJSP.war" deploy-path="/" handle="module:/resource/ContactBookJSP/ContactBookJSP">
+            <dependent-object>WebModule_1295691364967</dependent-object>
             <dependency-type>uses</dependency-type>
         </dependent-module>
     </wb-module>
