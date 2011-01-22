@@ -33,6 +33,8 @@ h1 {
 
 #mainPanel {
 	overflow: auto;
+	margin-top: 25px;
+	margin-left: 10;
 }
 
 .formError {
