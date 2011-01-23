@@ -33,7 +33,7 @@ public class LinksContactList extends VerticalPanel {
 					HTML link = new HTML("<a href=\"#\">" + c.getFirstName() + " " + c.getLastName() + "</a>");
 					link.addClickHandler(new ClickHandler() {
 						public void onClick(ClickEvent arg0) {
-								webApp.setMain(new ContactView(c));
+								webApp.setMain(new ContactView(c, webApp));
 						}
 					});
 					vPanel.add(link);

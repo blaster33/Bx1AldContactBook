@@ -154,7 +154,6 @@ public class ContactBookWebapp implements EntryPoint {
 		new Timer() {
 			public void run() {
 				dialogBox.hide();
-				closeButton.setVisible(true);
 			}
 		}.schedule(2000);
 	}
@@ -162,6 +161,7 @@ public class ContactBookWebapp implements EntryPoint {
 	public void showError(String title, String message) {
 		dialogBox.setText(title);
 		errorLabel.setText(message);
+		closeButton.setVisible(true);
 		errorLabel.setStyleName("serverResponseLabelError");
 		dialogBox.center();
 	}

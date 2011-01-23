@@ -44,6 +44,8 @@ public class GroupEditForm extends AsyncForm {
 				
 				ContactBookBusinessServiceAsync contactService = webApp.getBusinessService();
 				GroupDTO dto = new GroupDTO();
+				if(group != null)
+					dto.setId(group.getId());
 				dto.setName(groupName);
 				dto.setUser(webApp.getCurrentUser());
 				

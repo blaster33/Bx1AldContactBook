@@ -7,5 +7,8 @@ public class WidgetPair extends HorizontalPanel {
 	public WidgetPair(Widget left, Widget right) {
 		add(left);
 		add(right);
+		
+		left.addStyleName("leftWidget");
+		right.addStyleName("rightWidget");
 	}
 }

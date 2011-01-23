@@ -4,6 +4,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 
@@ -136,7 +137,9 @@ public class ContactEditForm extends AsyncForm {
 
 				ContactBookBusinessServiceAsync contactService = webApp.getBusinessService();
 				ContactDTO dto = new ContactDTO();
-				try {
+				
+				if(contact != null)
+					dto.setId(contact.getId());
 				dto.setGroup(groupList.getSelectedGroup());
 				dto.setLastName(lastNameField.getText());
 				dto.setFirstName(firstNameField.getText());
@@ -152,10 +155,6 @@ public class ContactEditForm extends AsyncForm {
 				// TODO display proper date
 				//dto.setDateOfBirth(Long.parseLong(dateOfBirthField.getText()));
 				dto.setUser(webApp.getCurrentUser());
-
-				} catch(Exception e) {
-					webApp.showError("DEBUG", e.getMessage() + "<br />" + e);
-				}
 				
 				contactService.addOrUpdateContact(dto, new AsyncCallback<Boolean>() {
 					public void onSuccess(Boolean updated) {
@@ -166,6 +165,8 @@ public class ContactEditForm extends AsyncForm {
 								webApp.showInfo(Message.CONTACT, Message.CONTACT_CREATE_SUCCESSFUL);
 							else
 								webApp.showInfo(Message.CONTACT, Message.CONTACT_UPDATE_SUCCESSFUL);
+							
+							webApp.setMain(new HTML(""));
 						}
 					}
 

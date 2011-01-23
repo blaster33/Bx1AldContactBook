@@ -46,4 +46,21 @@ public interface ContactBookBusinessService extends RemoteService {
 	 * @return <code>true<code> if the contact was successfully created, <code>false</code> otherwise
 	 */
 	public boolean addOrUpdateContact(ContactDTO contact);
+	
+	/**
+	 * Remove a group from the contact book
+	 * @param group
+	 * @param removeContacts if set to <code>true</code> all the contacts
+	 * contained in this group will be removed as well. If not, all contacts
+	 * will be moved to the user's default group
+	 * @return a boolean indicating if the group has been deleted
+	 */
+	public boolean removeGroup(GroupDTO group, boolean removeContacts);
+	
+	/**
+	 * Remove a contact from the contact book
+	 * @param contact the contact to remove
+	 * @return <code>true</code> if the contact has been successfully removed, <code>false</code> otherwise.
+	 */
+	public boolean removeContact(ContactDTO contact);
 }

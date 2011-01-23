@@ -1,9 +1,12 @@
 package contactbook.webapp.client.components.widgets;
 
 import java.util.List;
+import java.util.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Tree;
@@ -11,11 +14,12 @@ import com.google.gwt.user.client.ui.TreeItem;
 
 import contactbook.webapp.client.ContactBookWebapp;
 import contactbook.webapp.client.components.views.ContactView;
+import contactbook.webapp.client.components.views.GroupView;
 import contactbook.webapp.client.dto.ContactDTO;
 import contactbook.webapp.client.dto.GroupDTO;
 import contactbook.webapp.shared.Message;
 
-public class TreeContactList extends Tree {
+public class TreeContactList extends Tree implements SelectionHandler<TreeItem> {
 	protected ContactBookWebapp webApp;
 
 	public TreeContactList(ContactBookWebapp webApp) {
@@ -39,6 +43,8 @@ public class TreeContactList extends Tree {
 						"<br />" + arg0.getMessage());
 			}
 		});
+		
+		addSelectionHandler(this);
 	}
 	
 	protected void populateContacts(final TreeItem node, GroupDTO group) {
@@ -52,12 +58,23 @@ public class TreeContactList extends Tree {
 					HTML link = new HTML("<a href=\"#\">" + c.getFirstName() + " " + c.getLastName() + "</a>");
 					link.addClickHandler(new ClickHandler() {
 						public void onClick(ClickEvent arg0) {
-								webApp.setMain(new ContactView(c));
+								webApp.setMain(new ContactView(c, webApp));
 						}
 					});
 					node.addItem(link);
 				}
 			}
 		});
+	}
+
+	@Override
+	public void onSelection(SelectionEvent<TreeItem> event) {
+		TreeItem item = event.getSelectedItem();
+		if(item.getParentItem() ==  null) {
+			GroupDTO dto = new GroupDTO();
+			dto.setName(item.getText());
+			dto.setUser(webApp.getCurrentUser());
+			webApp.setMain(new GroupView(dto, webApp));
+		}
 	}
 }
