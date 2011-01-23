@@ -10,4 +10,10 @@
 			<context-root>ContactBookWebapp</context-root>
 		</web>
 	</module>
+	<module id="WebModule_1295691364967">
+		<web>
+			<web-uri>ContactBookJSP.war</web-uri>
+			<context-root>ContactBookJSP</context-root>
+		</web>
+	</module>
 </application>
