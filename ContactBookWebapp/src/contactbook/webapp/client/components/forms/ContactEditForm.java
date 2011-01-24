@@ -1,5 +1,7 @@
 package contactbook.webapp.client.components.forms;
 
+import java.util.Date;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -22,12 +24,12 @@ public class ContactEditForm extends AsyncForm {
 
 	public ContactEditForm(final ContactBookWebapp webApp, final ContactDTO contact) {
 		final GroupListBox groupList = new GroupListBox(webApp);
-		
+
 		if(contact != null)
 			groupList.setSelectedGroup(contact.getGroup());
 		else
 			groupList.setSelectedGroup(webApp.getCurrentUser().getDefaultGroup());
-		
+
 		add(new Label(Message.GROUP));
 		add(groupList);
 
@@ -43,7 +45,7 @@ public class ContactEditForm extends AsyncForm {
 		final Label stateLabel = new Label("");
 		final Label countryLabel = new Label("");
 		final Label dateOfBirthLabel = new Label("");
-		
+
 		lastNameLabel.setStyleName("formError");
 		firstNameLabel.setStyleName("formError");
 		homePhoneLabel.setStyleName("formError");
@@ -107,7 +109,8 @@ public class ContactEditForm extends AsyncForm {
 		add(new WidgetPair(stateField, stateLabel));
 		add(new Label(Message.CONTACT_COUNTRY));
 		add(new WidgetPair(countryField, countryLabel));
-		add(new Label(Message.CONTACT_DOB));
+
+		add(new Label(Message.CONTACT_DOB + "(MM/DD/YYYY)"));
 		add(new WidgetPair(dateOfBirthField, dateOfBirthLabel));
 
 		Button submitButton = new Button(Message.SAVE);
@@ -121,6 +124,7 @@ public class ContactEditForm extends AsyncForm {
 				boolean ok = true;
 				firstNameLabel.setText("");
 				lastNameLabel.setText("");
+				dateOfBirthLabel.setText("");
 				if(firstName.equals("")) {
 					firstNameLabel.setText(Message.EMPTY_FIRST_NAME);
 					ok = false;
@@ -131,32 +135,43 @@ public class ContactEditForm extends AsyncForm {
 					ok = false;
 				}
 
+				Date date = null;
+				try {
+					String strDate = dateOfBirthField.getText();
+					int year = Integer.parseInt(strDate.substring(6, 9));
+					int month = Integer.parseInt(strDate.substring(3, 4));
+					int day = Integer.parseInt(strDate.substring(0, 1));
+					date = new Date(year, month, day, 0, 0, 0);
+				} catch(Exception e) {
+					dateOfBirthLabel.setText(Message.INVALID_DATE);
+					ok = false;
+				}
+
 				if(!ok)
 					return;
 
 				ContactBookBusinessServiceAsync contactService = webApp.getBusinessService();
 				ContactDTO dto = new ContactDTO();
 				try {
-				dto.setGroup(groupList.getSelectedGroup());
-				dto.setLastName(lastNameField.getText());
-				dto.setFirstName(firstNameField.getText());
-				dto.setHomePhone(homePhoneField.getText());
-				dto.setCellPhone(cellPhoneField.getText());
-				dto.setEmail(emailField.getText());
-				dto.setAddress1(address1Field.getText());
-				dto.setAddress2(address2Field.getText());
-				dto.setZipCode(zipCodeField.getText());
-				dto.setCity(cityField.getText());
-				dto.setState(stateField.getText());
-				dto.setCountry(countryField.getText());
-				// TODO display proper date
-				//dto.setDateOfBirth(Long.parseLong(dateOfBirthField.getText()));
-				dto.setUser(webApp.getCurrentUser());
+					dto.setGroup(groupList.getSelectedGroup());
+					dto.setLastName(lastNameField.getText());
+					dto.setFirstName(firstNameField.getText());
+					dto.setHomePhone(homePhoneField.getText());
+					dto.setCellPhone(cellPhoneField.getText());
+					dto.setEmail(emailField.getText());
+					dto.setAddress1(address1Field.getText());
+					dto.setAddress2(address2Field.getText());
+					dto.setZipCode(zipCodeField.getText());
+					dto.setCity(cityField.getText());
+					dto.setState(stateField.getText());
+					dto.setCountry(countryField.getText());
+					dto.setDateOfBirth(date.getTime());
+					dto.setUser(webApp.getCurrentUser());
 
 				} catch(Exception e) {
 					webApp.showError("DEBUG", e.getMessage() + "<br />" + e);
 				}
-				
+
 				contactService.addOrUpdateContact(dto, new AsyncCallback<Boolean>() {
 					public void onSuccess(Boolean updated) {
 						if(updated) {
