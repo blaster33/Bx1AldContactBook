@@ -30,6 +30,7 @@ public class Message {
 	public static final String EMPTY_GROUP_NAME = "Group name cannot be empty";
 	public static final String EMPTY_FIRST_NAME = "First name cannot be empty!";
 	public static final String EMPTY_LAST_NAME = "Last name cannot be empty!";
+	public static final String INVALID_DATE = "The provided date is invalid!";
 	
 	/*
 	 * Groups
