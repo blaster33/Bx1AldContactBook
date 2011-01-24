@@ -131,7 +131,7 @@ public class ContactBookController extends HttpServlet implements javax.servlet.
 		String username = request.getParameter("username");
 		request.setAttribute("username", username);
 		request.setAttribute("beanList", beanList);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/resultat.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/listuser.jsp");
 		dispatcher.forward(request, response);
 	}
 	

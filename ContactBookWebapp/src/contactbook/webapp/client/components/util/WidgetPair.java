@@ -10,5 +10,6 @@ public class WidgetPair extends HorizontalPanel {
 		
 		left.addStyleName("leftWidget");
 		right.addStyleName("rightWidget");
+		setSpacing(2);
 	}
 }

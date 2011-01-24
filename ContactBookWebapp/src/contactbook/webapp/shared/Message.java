@@ -52,7 +52,7 @@ public class Message {
 	public static final String CONTACT_UPDATE_SUCCESSFUL = "The contact has been updated.";
 	public static final String REMOVE_CONTACT_SUCCESSFUL = "The contact has been removed.";
 	public static final String REMOVE_CONTACT_FAILURE = "An error has occured: unable to remove contact.";
-	public static final String CONFIRM_REMOVE_CONTACT = "An error has occured: unable to remove contact.";
+	public static final String CONFIRM_REMOVE_CONTACT = "Are you sure you want to remove this contact?";
 	public static final String CONTACT_NEW = "New contact";
 	public static final String CONTACT = "Contact";
 	public static final String CONTACT_LAST_NAME = "Last name";
@@ -80,4 +80,5 @@ public class Message {
 	public static final String ERROR_LOGOUT = "Unable to logout.\nPlease try again.";
 	public static final String ERROR_LOADING_CONTACTS = "Unable to load contacts from server!";
 	public static final String ERROR_SAVING_GROUP = "An error occured: unable to save the group.";
+	public static final String ERROR_SAVING_CONTACT = "An error occured: unable to save the contact.";
 }

@@ -1,5 +1,7 @@
 package contactbook.webapp.client.components.views;
 
+import java.util.Date;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -45,12 +47,24 @@ public class ContactView extends VerticalPanel implements ClickHandler {
 		add(new WidgetPair(new Label(Message.CONTACT_CITY + ": "), new Label(contact.getCity())));
 		add(new WidgetPair(new Label(Message.CONTACT_STATE + ": "), new Label(contact.getState())));
 		add(new WidgetPair(new Label(Message.CONTACT_COUNTRY + ": "), new Label(contact.getCountry())));
-		add(new WidgetPair(new Label(Message.CONTACT_STATE + ": "), new Label(contact.getState())));
+		
+		Date dob = new Date(contact.getDateOfBirth() * 1000);
+		int month = dob.getMonth() + 1;
+		int day = dob.getDate();
+		int year = dob.getYear() + 1900;
+		String dobString = "";
+		if ( month < 10 )
+			dobString += "0";
+		dobString += month + "/";
+		if ( day < 10 )
+			dobString += "0";
+		dobString += day + "/" + year;
+		add(new WidgetPair(new Label(Message.CONTACT_DOB + ": "), new Label(dobString)));
 
 		editButton.addClickHandler(this);
 		removeButton.addClickHandler(this);
 	}
-
+	
 	@Override
 	public void onClick(ClickEvent event) {
 		if(event.getSource() == editButton) {
@@ -60,8 +74,13 @@ public class ContactView extends VerticalPanel implements ClickHandler {
 			if(Window.confirm(Message.CONFIRM_REMOVE_CONTACT)) {
 				webApp.getBusinessService().removeContact(contact, new AsyncCallback<Boolean>() {
 					public void onSuccess(Boolean result) {
+						if(!result) {
+							webApp.showError(Message.CONTACT, Message.REMOVE_CONTACT_FAILURE);
+							return;
+						}
 						webApp.showInfo(Message.CONTACT, Message.REMOVE_CONTACT_SUCCESSFUL);
 						webApp.setMain(new HTML(""));
+						webApp.refreshLeft();
 					}
 
 					public void onFailure(Throwable caught) {

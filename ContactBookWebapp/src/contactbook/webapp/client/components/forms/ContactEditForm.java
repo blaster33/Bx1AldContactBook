@@ -86,7 +86,19 @@ public class ContactEditForm extends AsyncForm {
 			stateField.setText(contact.getState());
 			countryField.setText(contact.getCountry());
 			// TODO display proper date
-			dateOfBirthField.setText("" + contact.getDateOfBirth());
+			Date dob = new Date(contact.getDateOfBirth() * 1000);
+			int month = dob.getMonth() + 1;
+			int day = dob.getDate();
+			int year = dob.getYear() + 1900;
+			String dobString = "";
+			if ( month < 10 )
+				dobString += "0";
+			dobString += month + "/";
+			if ( day < 10 )
+				dobString += "0";
+			dobString += day + "/" + year;
+			
+			dateOfBirthField.setText(dobString);
 		}
 
 		add(new Label(Message.CONTACT_LAST_NAME));
@@ -139,9 +151,9 @@ public class ContactEditForm extends AsyncForm {
 				Date date = null;
 				try {
 					String strDate = dateOfBirthField.getText();
-					int year = Integer.parseInt(strDate.substring(6, 9));
-					int month = Integer.parseInt(strDate.substring(3, 4));
-					int day = Integer.parseInt(strDate.substring(0, 1));
+					int year = Integer.parseInt(strDate.substring(6, 10)) - 1900;
+					int month = Integer.parseInt(strDate.substring(0, 2)) - 1;
+					int day = Integer.parseInt(strDate.substring(3, 5));
 					date = new Date(year, month, day, 0, 0, 0);
 				} catch(Exception e) {
 					dateOfBirthLabel.setText(Message.INVALID_DATE);
@@ -168,7 +180,7 @@ public class ContactEditForm extends AsyncForm {
 				dto.setCity(cityField.getText());
 				dto.setState(stateField.getText());
 				dto.setCountry(countryField.getText());
-				dto.setDateOfBirth(date.getTime());
+				dto.setDateOfBirth(date.getTime() / 1000);
 				dto.setUser(webApp.getCurrentUser());
 				
 				contactService.addOrUpdateContact(dto, new AsyncCallback<Boolean>() {
@@ -186,7 +198,7 @@ public class ContactEditForm extends AsyncForm {
 					}
 
 					public void onFailure(Throwable arg0) {
-						//webApp.showError(Message.ERROR, Message.ERROR_SAVING_GROUP);
+						webApp.showError(Message.ERROR, Message.ERROR_SAVING_CONTACT);
 					}
 				});
 			}
