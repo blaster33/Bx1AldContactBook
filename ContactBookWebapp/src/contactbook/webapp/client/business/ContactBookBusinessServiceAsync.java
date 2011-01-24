@@ -15,5 +15,9 @@ public interface ContactBookBusinessServiceAsync {
 	
 	public void addOrUpdateGroup(GroupDTO group, AsyncCallback<Boolean> callback);
 
-	public void addOrUpdateContact(ContactDTO dto, AsyncCallback<Boolean> asyncCallback);
+	public void addOrUpdateContact(ContactDTO dto, AsyncCallback<Boolean> callback);
+	
+	public void removeGroup(GroupDTO group, boolean removeContacts, AsyncCallback<Boolean> callback);
+	
+	public void removeContact(ContactDTO contact, AsyncCallback<Boolean> callback);
 }

@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 
@@ -152,26 +153,24 @@ public class ContactEditForm extends AsyncForm {
 
 				ContactBookBusinessServiceAsync contactService = webApp.getBusinessService();
 				ContactDTO dto = new ContactDTO();
-				try {
-					dto.setGroup(groupList.getSelectedGroup());
-					dto.setLastName(lastNameField.getText());
-					dto.setFirstName(firstNameField.getText());
-					dto.setHomePhone(homePhoneField.getText());
-					dto.setCellPhone(cellPhoneField.getText());
-					dto.setEmail(emailField.getText());
-					dto.setAddress1(address1Field.getText());
-					dto.setAddress2(address2Field.getText());
-					dto.setZipCode(zipCodeField.getText());
-					dto.setCity(cityField.getText());
-					dto.setState(stateField.getText());
-					dto.setCountry(countryField.getText());
-					dto.setDateOfBirth(date.getTime());
-					dto.setUser(webApp.getCurrentUser());
-
-				} catch(Exception e) {
-					webApp.showError("DEBUG", e.getMessage() + "<br />" + e);
-				}
-
+				
+				if(contact != null)
+					dto.setId(contact.getId());
+				dto.setGroup(groupList.getSelectedGroup());
+				dto.setLastName(lastNameField.getText());
+				dto.setFirstName(firstNameField.getText());
+				dto.setHomePhone(homePhoneField.getText());
+				dto.setCellPhone(cellPhoneField.getText());
+				dto.setEmail(emailField.getText());
+				dto.setAddress1(address1Field.getText());
+				dto.setAddress2(address2Field.getText());
+				dto.setZipCode(zipCodeField.getText());
+				dto.setCity(cityField.getText());
+				dto.setState(stateField.getText());
+				dto.setCountry(countryField.getText());
+				dto.setDateOfBirth(date.getTime());
+				dto.setUser(webApp.getCurrentUser());
+				
 				contactService.addOrUpdateContact(dto, new AsyncCallback<Boolean>() {
 					public void onSuccess(Boolean updated) {
 						if(updated) {
@@ -181,6 +180,8 @@ public class ContactEditForm extends AsyncForm {
 								webApp.showInfo(Message.CONTACT, Message.CONTACT_CREATE_SUCCESSFUL);
 							else
 								webApp.showInfo(Message.CONTACT, Message.CONTACT_UPDATE_SUCCESSFUL);
+							
+							webApp.setMain(new HTML(""));
 						}
 					}
 

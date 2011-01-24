@@ -46,16 +46,16 @@ implements ContactBookBusinessService {
 
 		return dtos;
 	}
-	
+
 	@Override
 	public List<ContactDTO> getContacts(GroupDTO groupDto) {
 		User user = contactService.getUserByName(groupDto.getUser().getLoginName());
 		List<Contact> contacts = contactService.getContactsByGroup(DtoUtils.groupFromDTO(groupDto, user));
 		List<ContactDTO> dtos = new Vector<ContactDTO>();
-		
+
 		for(Contact c: contacts)
 			dtos.add(DtoUtils.dtoFromContact(c, groupDto, groupDto.getUser()));
-		
+
 		return dtos;
 	}
 
@@ -79,7 +79,7 @@ implements ContactBookBusinessService {
 			g = contactService.updateGroup(g);
 		else
 			g = contactService.addGroup(g);
-		
+
 		return (g != null && g.getId() > 0);
 	}
 
@@ -87,7 +87,7 @@ implements ContactBookBusinessService {
 	public boolean addOrUpdateContact(ContactDTO dto) {
 		if(dto.getGroup() == null)
 			return false;
-		
+
 		User user = contactService.getUserByName(dto.getUser().getLoginName());
 		Group group = contactService.getGroupByName(dto.getGroup().getName(), user);
 		Contact contact = DtoUtils.contactFromDTO(dto, user, group);
@@ -95,8 +95,32 @@ implements ContactBookBusinessService {
 			contact = contactService.updateContact(contact);
 		else
 			contact = contactService.addContact(contact);
-		
+
 		return(contact != null && contact.getId() > 0);
 	}
 
+	@Override
+	public boolean removeGroup(GroupDTO dto, boolean removeContacts) {
+		try {
+			User user = contactService.getUserByName(dto.getUser().getLoginName());
+			Group group = contactService.getGroupByName(dto.getName(), user);
+			contactService.removeGroup(group, removeContacts);
+		} catch(Exception e) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public boolean removeContact(ContactDTO dto) {
+		try {
+			User user = contactService.getUserByName(dto.getUser().getLoginName());
+			// TODO check identity
+			contactService.removeContact(DtoUtils.contactFromDTO(dto, user, DtoUtils.groupFromDTO(dto.getGroup(), user)));
+		} catch(Exception e) {
+			return false;
+		}
+		return true;
+	}
 }

@@ -39,12 +39,20 @@ public class Message {
 	public static final String GROUP_NAME = "Group name";
 	public static final String GROUP_NEW = "New group";
 	public static final String ERROR_LOADING_GROUP_LIST = "An error has occured: unable to load group list";
+	public static final String CONFIRM_REMOVE_GROUP = "Are you sure you want to remvoe this group?";
+	public static final String CONFIRM_REMOVE_GROUP_AND_CONTACTS = "Are you sure you want to remvoe this group and all its contacts?\n"
+		+ "This cannot be undone.";
+	public static final String REMOVE_GROUP_FAILURE = "An error has occured: cannot remove the group.";
+	public static final String REMOVE_GROUP_SUCCESS = "The group has been deleted";
 	
 	/*
 	 * Contacts
 	 */
 	public static final String CONTACT_CREATE_SUCCESSFUL = "The new contact has been created.";
 	public static final String CONTACT_UPDATE_SUCCESSFUL = "The contact has been updated.";
+	public static final String REMOVE_CONTACT_SUCCESSFUL = "The contact has been removed.";
+	public static final String REMOVE_CONTACT_FAILURE = "An error has occured: unable to remove contact.";
+	public static final String CONFIRM_REMOVE_CONTACT = "An error has occured: unable to remove contact.";
 	public static final String CONTACT_NEW = "New contact";
 	public static final String CONTACT = "Contact";
 	public static final String CONTACT_LAST_NAME = "Last name";
@@ -62,6 +70,8 @@ public class Message {
 	/*
 	 * Various strings
 	 */
+	public static final String EDIT = "Edit";
+	public static final String REMOVE = "Remove";
 	public static final String BY_GROUP = "Groups";
 	public static final String ALL = "All";
 	public static final String SAVE = "Save";
